@@ -169,6 +169,7 @@ tbody tr.job-closed .cell.site { background: #0a1520; }
 <div class="app-header">
   <div class="app-title">Kewazo US Ops<span>Ops Hub</span></div>
   <div class="header-btns">
+    <span id="sync-indicator" style="font-size:11px;font-weight:700;letter-spacing:0.06em;color:#4a6278;min-width:80px;text-align:right"></span>
     <button class="hdr-btn hdr-btn-export" onclick="exportData()">&#x2B07; Export</button>
     <button class="hdr-btn hdr-btn-import" onclick="document.getElementById('import-file').click()">&#x2B06; Import</button>
     <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(this)">
@@ -328,8 +329,74 @@ var JOB_KEY  = 'kewazo_jobboard_v2';
 var TASK_KEY = 'kewazo_checklist_v4';
 var PACK_KEY = 'kewazo_packing_v1';
 
-function ls(k)   { try { return JSON.parse(localStorage.getItem(k)||'null'); } catch(e) { return null; } }
-function ss(k,v) { localStorage.setItem(k, JSON.stringify(v)); }
+var SCRIPT_URL = 'https://script.google.com/a/macros/kewazo.com/s/AKfycbw31IFZu3Qg-WaZFjqn_ToMI61X8OoMYIdg6zK0AxEs1rNZp9Q1XE4ZMmOOXRlCWB20uQ/exec';
+var _cache = {};
+var _dirty = {};
+var _syncTimer = null;
+
+// Local cache read/write (instant UI updates)
+function ls(k)   { try { return _cache[k] !== undefined ? _cache[k] : JSON.parse(localStorage.getItem(k)||'null'); } catch(e) { return null; } }
+function ss(k,v) { _cache[k] = v; localStorage.setItem(k, JSON.stringify(v)); schedulePush(k, v); }
+
+// Show sync indicator in header
+function showSync(state) {
+  var el = document.getElementById('sync-indicator');
+  if (!el) return;
+  if (state === 'saving') { el.textContent = '\u25CC Saving...'; el.style.color = '#f5a623'; }
+  else if (state === 'saved') { el.textContent = '\u2713 Synced'; el.style.color = '#00c896'; }
+  else if (state === 'error') { el.textContent = '\u26A0 Offline'; el.style.color = '#ff6b6b'; }
+}
+
+// Push to Google Sheets (debounced 1.5s)
+function schedulePush(k, v) {
+  _dirty[k] = v;
+  if (_syncTimer) clearTimeout(_syncTimer);
+  _syncTimer = setTimeout(function() { pushDirty(); }, 1500);
+  showSync('saving');
+}
+
+function pushDirty() {
+  var keys = Object.keys(_dirty);
+  if (!keys.length) return;
+  var batch = {};
+  keys.forEach(function(k) { batch[k] = JSON.stringify(_dirty[k]); });
+  _dirty = {};
+  fetch(SCRIPT_URL, {
+    method: 'POST',
+    body: JSON.stringify({action:'setAll', data:batch})
+  }).then(function() {
+    showSync('saved');
+    setTimeout(function(){ showSync(''); }, 3000);
+  }).catch(function() {
+    showSync('error');
+  });
+}
+
+// Pull all keys from Google Sheets on load
+function pullAll(cb) {
+  showSync('saving');
+  fetch(SCRIPT_URL + '?action=getAll')
+    .then(function(r){ return r.json(); })
+    .then(function(data) {
+      if (data && data.values) {
+        data.values.forEach(function(row) {
+          if (row.key && row.value) {
+            try {
+              _cache[row.key] = JSON.parse(row.value);
+              localStorage.setItem(row.key, row.value);
+            } catch(e) {}
+          }
+        });
+      }
+      showSync('saved');
+      setTimeout(function(){ showSync(''); }, 2000);
+      if (cb) cb();
+    })
+    .catch(function() {
+      showSync('error');
+      if (cb) cb();
+    });
+}
 
 // ══════════════════════════════════════════════════
 // JOB BOARD
@@ -915,8 +982,12 @@ function resetData() {
   location.reload();
 }
 
-renderJobs();
-renderShipLog();
+// Pull from Google Sheets on load, then render everything
+pullAll(function() {
+  renderJobs();
+  renderShipLog();
+  renderChecklist();
+});
 
 // ══════════════════════════════════════════════════
 // DAILY CHECKLIST
@@ -1151,7 +1222,6 @@ function taskDelete() {
 }
 
 document.getElementById('task-modal').addEventListener('click', function(e){ if(e.target===this) taskModalClose(); });
-renderChecklist();
 
 </script>
 </body>
