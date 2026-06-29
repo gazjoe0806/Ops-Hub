@@ -1,7 +1,8 @@
-<!DOCTYPE html>
-<!-- saved from url=(0043)file:///C:/Users/jgaza/Downloads/index.html -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kewazo Ops Hub</title>
 <style>
@@ -141,6 +142,7 @@ tbody tr.job-closed .cell.site { background: #0a1520; }
 .fld label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #4a6278; }
 .fld input, .fld select { background: #111d28; border: 1px solid #1e2d3d; border-radius: 6px; color: #e8edf2; font-size: 14px; font-family: inherit; padding: 9px 11px; outline: none; }
 .fld input:focus, .fld select:focus { border-color: #2e75b6; }
+.fld input[type="date"] { color-scheme: dark; cursor: pointer; }
 .fld select option { background: #111d28; }
 .modal-divider { grid-column: 1/-1; border: none; border-top: 1px solid #1e2d3d; margin: 8px 0 4px; }
 .modal-section-lbl { grid-column: 1/-1; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #2e75b6; margin-bottom: -4px; }
@@ -167,12 +169,12 @@ tbody tr.job-closed .cell.site { background: #0a1520; }
 <div class="app-header">
   <div class="app-title">Kewazo US Ops<span>Ops Hub</span></div>
   <div class="header-btns">
-    <button class="hdr-btn hdr-btn-export" onclick="exportData()">⬇ Export</button>
-    <button class="hdr-btn hdr-btn-import" onclick="document.getElementById(&#39;import-file&#39;).click()">⬆ Import</button>
+    <button class="hdr-btn hdr-btn-export" onclick="exportData()">&#x2B07; Export</button>
+    <button class="hdr-btn hdr-btn-import" onclick="document.getElementById('import-file').click()">&#x2B06; Import</button>
     <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(this)">
-    <button class="hdr-btn hdr-btn-reset" onclick="resetData()">↺ Reset</button>
+    <button class="hdr-btn hdr-btn-reset" onclick="resetData()">&#x21BA; Reset</button>
   </div>
-  <div class="app-date">Joel<span id="hdr-date">Fri, Jun 26</span></div>
+  <div class="app-date">Joel<span id="hdr-date"></span></div>
 </div>
 
 <!-- JOB BOARD -->
@@ -181,19 +183,19 @@ tbody tr.job-closed .cell.site { background: #0a1520; }
   <div class="board-controls"><button class="add-btn" onclick="jobAdd()">+ Add Job</button></div>
   <div class="table-wrap">
     <table>
-      <thead><tr><th>Site</th><th>Unit #</th><th>Event</th><th>Outbound Carrier</th><th>Tech</th><th>Return Carrier</th><th>Shipment Status</th><th>Notes</th><th></th></tr></thead>
-      <tbody id="job-body"><tr><td class="cell site">Exxon Baytown</td><td class="cell"><span class="lb-num">27</span></td><td class="cell"><span class="badge badge-pending">6/11</span></td><td class="cell carrier-cell"><div class="carrier-booked"><span class="carrier-name">undefined</span></div></td><td class="cell">Marcos</td><td class="cell carrier-cell"><div class="carrier-needs">⚠ Needs Carrier</div></td><td class="cell"><div class="stage-cell"><div class="stage-date">Planned: ✓</div><div class="stage-row"><div class="stage-box"></div><span class="stage-label">Booked</span></div><div class="stage-row"><div class="stage-box"></div><span class="stage-label">Shipped</span></div><div class="stage-row"><div class="stage-box"></div><span class="stage-label">Returned</span></div></div></td><td class="cell" style="font-size:12px;color:#4a6278;max-width:100px;white-space:normal">LB62 - Ship</td><td class="cell" style="white-space:nowrap"><button class="icon-btn" onclick="jobEdit(1)" title="Edit">✏️</button><button class="icon-btn" onclick="shipOpen(1)" title="Shipping Checklist">📋</button><button class="closeout-btn" onclick="jobCloseOut(1)">✓ Close Out</button></td></tr><tr><td class="cell site">Marathon Garyville</td><td class="cell"><span class="lb-num">61</span></td><td class="cell"><span class="badge badge-pending">6/16</span></td><td class="cell carrier-cell"><div class="carrier-booked"><span class="carrier-name">undefined</span></div></td><td class="cell">Marcos</td><td class="cell carrier-cell"><div class="carrier-needs">⚠ Needs Carrier</div></td><td class="cell"><div class="stage-cell"><div class="stage-date">Planned: ✓</div><div class="stage-row"><div class="stage-box"></div><span class="stage-label">Booked</span></div><div class="stage-row active-green"><div class="stage-box checked-green"><svg width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3 5.5L8 1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><span class="stage-label">Shipped</span></div><div class="stage-row"><div class="stage-box"></div><span class="stage-label">Returned</span></div></div></td><td class="cell" style="font-size:12px;color:#4a6278;max-width:100px;white-space:normal"></td><td class="cell" style="white-space:nowrap"><button class="icon-btn" onclick="jobEdit(2)" title="Edit">✏️</button><button class="icon-btn" onclick="shipOpen(2)" title="Shipping Checklist">📋</button><button class="closeout-btn" onclick="jobCloseOut(2)">✓ Close Out</button></td></tr><tr><td class="cell site">DOW MiOps</td><td class="cell"><span class="lb-num">76</span></td><td class="cell"><span class="badge badge-pending">6/23</span></td><td class="cell carrier-cell"><div class="carrier-booked"><span class="carrier-name">undefined</span></div></td><td class="cell">Isaac</td><td class="cell carrier-cell"><div class="carrier-needs">⚠ Needs Carrier</div></td><td class="cell"><div class="stage-cell"><div class="stage-date">Planned: 6/19</div><div class="stage-row"><div class="stage-box"></div><span class="stage-label">Booked</span></div><div class="stage-row active-green"><div class="stage-box checked-green"><svg width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3 5.5L8 1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><span class="stage-label">Shipped</span></div><div class="stage-row active-blue"><div class="stage-box checked-blue"><svg width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3 5.5L8 1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><span class="stage-label">Returned</span></div></div></td><td class="cell" style="font-size:12px;color:#4a6278;max-width:100px;white-space:normal"></td><td class="cell" style="white-space:nowrap"><button class="icon-btn" onclick="jobEdit(3)" title="Edit">✏️</button><button class="icon-btn" onclick="shipOpen(3)" title="Shipping Checklist">📋</button><button class="closeout-btn" onclick="jobCloseOut(3)">✓ Close Out</button></td></tr><tr><td class="cell site">Space X</td><td class="cell"><span class="lb-num">53</span></td><td class="cell"><span class="badge badge-done">✓ Done</span></td><td class="cell carrier-cell"><div class="carrier-booked"><span class="carrier-name">undefined</span></div></td><td class="cell"><span style="color:#2a3d52">—</span></td><td class="cell carrier-cell"><div class="carrier-needs">⚠ Needs Carrier</div></td><td class="cell"><div class="stage-cell"><div class="stage-date">Planned: ✓</div><div class="stage-row"><div class="stage-box"></div><span class="stage-label">Booked</span></div><div class="stage-row"><div class="stage-box"></div><span class="stage-label">Shipped</span></div><div class="stage-row"><div class="stage-box"></div><span class="stage-label">Returned</span></div></div></td><td class="cell" style="font-size:12px;color:#4a6278;max-width:100px;white-space:normal"></td><td class="cell" style="white-space:nowrap"><button class="icon-btn" onclick="jobEdit(6)" title="Edit">✏️</button><button class="icon-btn" onclick="shipOpen(6)" title="Shipping Checklist">📋</button><button class="closeout-btn" onclick="jobCloseOut(6)">✓ Close Out</button></td></tr><tr><td class="cell site">Sarnia</td><td class="cell"><span class="lb-num">48</span></td><td class="cell"><span class="badge badge-done">✓ Done</span></td><td class="cell carrier-cell"><div class="carrier-booked"><span class="carrier-name">undefined</span></div></td><td class="cell"><span style="color:#2a3d52">—</span></td><td class="cell carrier-cell"><div class="carrier-needs">⚠ Needs Carrier</div></td><td class="cell"><div class="stage-cell"><div class="stage-date">Planned: ✓</div><div class="stage-row"><div class="stage-box"></div><span class="stage-label">Booked</span></div><div class="stage-row"><div class="stage-box"></div><span class="stage-label">Shipped</span></div><div class="stage-row"><div class="stage-box"></div><span class="stage-label">Returned</span></div></div></td><td class="cell" style="font-size:12px;color:#4a6278;max-width:100px;white-space:normal"></td><td class="cell" style="white-space:nowrap"><button class="icon-btn" onclick="jobEdit(7)" title="Edit">✏️</button><button class="icon-btn" onclick="shipOpen(7)" title="Shipping Checklist">📋</button><button class="closeout-btn" onclick="jobCloseOut(7)">✓ Close Out</button></td></tr><tr><td class="cell site">Total Energy</td><td class="cell"><span style="color:#2a3d52">—</span></td><td class="cell"><span class="badge badge-pending">7/6</span></td><td class="cell carrier-cell"><div class="carrier-booked"><span class="carrier-name">undefined</span></div></td><td class="cell"><span style="color:#2a3d52">—</span></td><td class="cell carrier-cell"><div class="carrier-needs">⚠ Needs Carrier</div></td><td class="cell"><div class="stage-cell"><div class="stage-row"><div class="stage-box"></div><span class="stage-label">Booked</span></div><div class="stage-row"><div class="stage-box"></div><span class="stage-label">Shipped</span></div><div class="stage-row"><div class="stage-box"></div><span class="stage-label">Returned</span></div></div></td><td class="cell" style="font-size:12px;color:#4a6278;max-width:100px;white-space:normal"></td><td class="cell" style="white-space:nowrap"><button class="icon-btn" onclick="jobEdit(8)" title="Edit">✏️</button><button class="icon-btn" onclick="shipOpen(8)" title="Shipping Checklist">📋</button><button class="closeout-btn" onclick="jobCloseOut(8)">✓ Close Out</button></td></tr><tr><td class="cell site">Motiva</td><td class="cell"><span style="color:#2a3d52">—</span></td><td class="cell"><span class="badge badge-pending">7/15</span></td><td class="cell carrier-cell"><div class="carrier-booked"><span class="carrier-name">undefined</span></div></td><td class="cell"><span style="color:#2a3d52">—</span></td><td class="cell carrier-cell"><div class="carrier-needs">⚠ Needs Carrier</div></td><td class="cell"><div class="stage-cell"><div class="stage-row"><div class="stage-box"></div><span class="stage-label">Booked</span></div><div class="stage-row"><div class="stage-box"></div><span class="stage-label">Shipped</span></div><div class="stage-row"><div class="stage-box"></div><span class="stage-label">Returned</span></div></div></td><td class="cell" style="font-size:12px;color:#4a6278;max-width:100px;white-space:normal">Badging</td><td class="cell" style="white-space:nowrap"><button class="icon-btn" onclick="jobEdit(9)" title="Edit">✏️</button><button class="icon-btn" onclick="shipOpen(9)" title="Shipping Checklist">📋</button><button class="closeout-btn" onclick="jobCloseOut(9)">✓ Close Out</button></td></tr></tbody>
+      <thead><tr><th>Site</th><th>Unit #</th><th>Event</th><th>Tech</th><th>Shipment Status</th><th>Notes</th><th></th></tr></thead>
+      <tbody id="job-body"></tbody>
     </table>
   </div>
   <div class="completed-jobs-toggle" id="comp-jobs-toggle" onclick="toggleCompletedJobs()">
-    <span class="completed-jobs-label">\u2713 Closed Out Jobs</span>
-    <span class="completed-jobs-count" id="comp-jobs-count">2 jobs</span>
-    <span class="completed-jobs-arrow">\u25BC</span>
+    <span class="completed-jobs-label">&#x2713; Closed Out Jobs</span>
+    <span class="completed-jobs-count" id="comp-jobs-count">0 jobs</span>
+    <span class="completed-jobs-arrow">&#x25BC;</span>
   </div>
   <div class="completed-jobs-list" id="comp-jobs-list">
     <table>
-      <thead><tr><th>Site</th><th>Unit #</th><th>Event</th><th>Outbound Carrier</th><th>Tech</th><th>Return Carrier</th><th>Shipment Status</th><th>Notes</th><th></th></tr></thead>
-      <tbody id="comp-job-body"><tr class="job-closed"><td class="cell site">Valero McKee</td><td class="cell"><span class="lb-num">21</span></td><td class="cell"><span class="badge badge-pending">6/24</span></td><td class="cell carrier-cell"><div class="carrier-booked"><span class="carrier-name">undefined</span></div></td><td class="cell">Heitor</td><td class="cell carrier-cell"><div class="carrier-needs">⚠ Needs Carrier</div></td><td class="cell"><span class="badge badge-none">—</span></td><td class="cell" style="font-size:12px;color:#4a6278;max-width:100px;white-space:normal">Strapped</td><td class="cell" style="white-space:nowrap"><button class="icon-btn" onclick="jobReopen(4)" style="font-size:12px;color:#4a6278">↩ Reopen</button></td></tr><tr class="job-closed"><td class="cell site">DOW Tx City</td><td class="cell"><span class="lb-num">52</span></td><td class="cell"><span class="badge badge-pending">6/25</span></td><td class="cell carrier-cell"><div class="carrier-booked"><span class="carrier-name">undefined</span></div></td><td class="cell">Kenny</td><td class="cell carrier-cell"><div class="carrier-needs">⚠ Needs Carrier</div></td><td class="cell"><span class="badge badge-none">—</span></td><td class="cell" style="font-size:12px;color:#4a6278;max-width:100px;white-space:normal">Strapped</td><td class="cell" style="white-space:nowrap"><button class="icon-btn" onclick="jobReopen(5)" style="font-size:12px;color:#4a6278">↩ Reopen</button></td></tr></tbody>
+      <thead><tr><th>Site</th><th>Unit #</th><th>Event</th><th>Tech</th><th>Shipment Status</th><th>Notes</th><th></th></tr></thead>
+      <tbody id="comp-job-body"></tbody>
     </table>
   </div>
 </div>
@@ -204,7 +206,7 @@ tbody tr.job-closed .cell.site { background: #0a1520; }
 <div class="section-block">
   <div class="section-label">Shipping Checklists</div>
   <div style="border-radius:10px;border:1px solid #1e2d3d;overflow:hidden">
-    <div id="ship-log-body"><div class="ship-log-row"><div><div class="ship-log-site">Exxon Baytown</div><div class="ship-log-meta">Unit 27 ·  Event 6/11 · Marcos</div></div><span class="ship-log-status sls-empty">Not Started</span></div><div class="ship-log-row"><div><div class="ship-log-site">Marathon Garyville</div><div class="ship-log-meta">Unit 61 ·  Event 6/16 · Marcos</div></div><span class="ship-log-status sls-empty">Not Started</span></div><div class="ship-log-row"><div><div class="ship-log-site">DOW MiOps</div><div class="ship-log-meta">Unit 76 ·  Event 6/23 · Isaac</div></div><span class="ship-log-status sls-locked">✓ Outbound Locked</span></div><div class="ship-log-row"><div><div class="ship-log-site">Valero McKee <span style="font-size:11px;color:#2a3d52">(closed)</span></div><div class="ship-log-meta">Unit 21 ·  Event 6/24 · Heitor</div></div><span class="ship-log-status sls-empty">Not Started</span></div><div class="ship-log-row"><div><div class="ship-log-site">DOW Tx City <span style="font-size:11px;color:#2a3d52">(closed)</span></div><div class="ship-log-meta">Unit 52 ·  Event 6/25 · Kenny</div></div><span class="ship-log-status sls-empty">Not Started</span></div><div class="ship-log-row"><div><div class="ship-log-site">Space X</div><div class="ship-log-meta">Unit 53 ·  Event ✓</div></div><span class="ship-log-status sls-empty">Not Started</span></div><div class="ship-log-row"><div><div class="ship-log-site">Sarnia</div><div class="ship-log-meta">Unit 48 ·  Event ✓</div></div><span class="ship-log-status sls-empty">Not Started</span></div><div class="ship-log-row"><div><div class="ship-log-site">Total Energy</div><div class="ship-log-meta"> Event 7/6</div></div><span class="ship-log-status sls-empty">Not Started</span></div><div class="ship-log-row"><div><div class="ship-log-site">Motiva</div><div class="ship-log-meta"> Event 7/15</div></div><span class="ship-log-status sls-empty">Not Started</span></div></div>
+    <div id="ship-log-body"></div>
   </div>
 </div>
 
@@ -213,7 +215,7 @@ tbody tr.job-closed .cell.site { background: #0a1520; }
 <!-- CHECKLIST -->
 <div class="section-block">
   <div class="section-label">Daily Checklist</div>
-  <div id="cl-container"><div class="day-section" id="sec-today"><div class="day-header"><span class="day-lbl">Today</span><span class="day-title">June 26, 2026</span><span class="day-count">18 / 20</span><button class="icon-btn" style="margin-left:8px" onclick="taskAdd(&#39;today&#39;)" title="Add task">＋</button></div><div class="prog-bar"><div class="prog-fill" style="width:90%"></div></div><div id="tasks-today"><div class="task-wrap followup" data-sec="today" data-task="t11"><div class="task-row" onclick="taskToggleDone(this.closest(&#39;.task-wrap&#39;))"><div class="chk"><svg class="chkmark" viewBox="0 0 11 8" fill="none"><path d="M1 4L4 7L10 1" stroke="#0a1520" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><div class="task-content"><div class="task-text">Touch base with Mark at Motiva — confirm badging headcount</div><div class="task-meta">Confirm with Geoff on who's going</div></div></div><div class="action-bar"><button class="act-btn hl-btn" onclick="taskToggleHL(this.closest(&#39;.task-wrap&#39;))">⚡ Highlight</button><button class="act-btn fu-btn active" onclick="taskToggleFU(this.closest(&#39;.task-wrap&#39;))">🔁 Follow Up</button><button class="act-btn note-btn" onclick="taskToggleNote(this.closest(&#39;.task-wrap&#39;))">📝 Note</button><button class="act-btn" onclick="taskEdit(&#39;today&#39;,&#39;t11&#39;)">✏ Edit</button></div><div class="note-area"><textarea class="note-input" placeholder="Add a note..." oninput="taskSaveNote(this)"></textarea></div></div><div class="task-wrap followup" data-sec="today" data-task="t12"><div class="task-row" onclick="taskToggleDone(this.closest(&#39;.task-wrap&#39;))"><div class="chk"><svg class="chkmark" viewBox="0 0 11 8" fill="none"><path d="M1 4L4 7L10 1" stroke="#0a1520" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><div class="task-content"><div class="task-text">Pay UPS bill</div></div></div><div class="action-bar"><button class="act-btn hl-btn" onclick="taskToggleHL(this.closest(&#39;.task-wrap&#39;))">⚡ Highlight</button><button class="act-btn fu-btn active" onclick="taskToggleFU(this.closest(&#39;.task-wrap&#39;))">🔁 Follow Up</button><button class="act-btn note-btn" onclick="taskToggleNote(this.closest(&#39;.task-wrap&#39;))">📝 Note</button><button class="act-btn" onclick="taskEdit(&#39;today&#39;,&#39;t12&#39;)">✏ Edit</button></div><div class="note-area"><textarea class="note-input" placeholder="Add a note..." oninput="taskSaveNote(this)"></textarea></div></div></div><div class="completed-section" id="comp-sec-today"><div class="completed-toggle"><span class="completed-toggle-label">✓ Completed</span><span class="completed-toggle-count">18 tasks</span><span class="completed-toggle-arrow">▼</span></div><div class="completed-list" id="comp-list-today"><div class="task-wrap priority done followup" data-sec="today" data-task="t0"><div class="task-row" onclick="taskToggleDone(this.closest(&#39;.task-wrap&#39;))"><div class="chk"><svg class="chkmark" viewBox="0 0 11 8" fill="none"><path d="M1 4L4 7L10 1" stroke="#0a1520" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><div class="task-content"><div class="task-text">P66 vendor setup</div></div><span class="pri-badge">Priority</span></div><div class="action-bar"><button class="act-btn hl-btn" onclick="taskToggleHL(this.closest(&#39;.task-wrap&#39;))">⚡ Highlight</button><button class="act-btn fu-btn active" onclick="taskToggleFU(this.closest(&#39;.task-wrap&#39;))">🔁 Follow Up</button><button class="act-btn note-btn" onclick="taskToggleNote(this.closest(&#39;.task-wrap&#39;))">📝 Note</button><button class="act-btn" onclick="taskEdit(&#39;today&#39;,&#39;t0&#39;)">✏ Edit</button></div><div class="note-area"><textarea class="note-input" placeholder="Add a note..." oninput="taskSaveNote(this)"></textarea></div></div><div class="task-wrap done" data-sec="today" data-task="t1"><div class="task-row" onclick="taskToggleDone(this.closest(&#39;.task-wrap&#39;))"><div class="chk"><svg class="chkmark" viewBox="0 0 11 8" fill="none"><path d="M1 4L4 7L10 1" stroke="#0a1520" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><div class="task-content"><div class="task-text">Book travel — Artem, Isaac, Kenny</div></div></div><div class="action-bar"><button class="act-btn hl-btn" onclick="taskToggleHL(this.closest(&#39;.task-wrap&#39;))">⚡ Highlight</button><button class="act-btn fu-btn" onclick="taskToggleFU(this.closest(&#39;.task-wrap&#39;))">🔁 Follow Up</button><button class="act-btn note-btn" onclick="taskToggleNote(this.closest(&#39;.task-wrap&#39;))">📝 Note</button><button class="act-btn" onclick="taskEdit(&#39;today&#39;,&#39;t1&#39;)">✏ Edit</button></div><div class="note-area"><textarea class="note-input" placeholder="Add a note..." oninput="taskSaveNote(this)"></textarea></div></div><div class="task-wrap done" data-sec="today" data-task="t2"><div class="task-row" onclick="taskToggleDone(this.closest(&#39;.task-wrap&#39;))"><div class="chk"><svg class="chkmark" viewBox="0 0 11 8" fill="none"><path d="M1 4L4 7L10 1" stroke="#0a1520" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><div class="task-content"><div class="task-text">Confirm travel complete for MiOps Innovation Day</div></div></div><div class="action-bar"><button class="act-btn hl-btn" onclick="taskToggleHL(this.closest(&#39;.task-wrap&#39;))">⚡ Highlight</button><button class="act-btn fu-btn" onclick="taskToggleFU(this.closest(&#39;.task-wrap&#39;))">🔁 Follow Up</button><button class="act-btn note-btn" onclick="taskToggleNote(this.closest(&#39;.task-wrap&#39;))">📝 Note</button><button class="act-btn" onclick="taskEdit(&#39;today&#39;,&#39;t2&#39;)">✏ Edit</button></div><div class="note-area"><textarea class="note-input" placeholder="Add a note..." oninput="taskSaveNote(this)"></textarea></div></div><div class="task-wrap done" data-sec="today" data-task="t3"><div class="task-row" onclick="taskToggleDone(this.closest(&#39;.task-wrap&#39;))"><div class="chk"><svg class="chkmark" viewBox="0 0 11 8" fill="none"><path d="M1 4L4 7L10 1" stroke="#0a1520" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><div class="task-content"><div class="task-text">Finalize travel for Heitor (Valero McKee)</div></div></div><div class="action-bar"><button class="act-btn hl-btn" onclick="taskToggleHL(this.closest(&#39;.task-wrap&#39;))">⚡ Highlight</button><button class="act-btn fu-btn" onclick="taskToggleFU(this.closest(&#39;.task-wrap&#39;))">🔁 Follow Up</button><button class="act-btn note-btn" onclick="taskToggleNote(this.closest(&#39;.task-wrap&#39;))">📝 Note</button><button class="act-btn" onclick="taskEdit(&#39;today&#39;,&#39;t3&#39;)">✏ Edit</button></div><div class="note-area"><textarea class="note-input" placeholder="Add a note..." oninput="taskSaveNote(this)"></textarea></div></div><div class="task-wrap done" data-sec="today" data-task="t4"><div class="task-row" onclick="taskToggleDone(this.closest(&#39;.task-wrap&#39;))"><div class="chk"><svg class="chkmark" viewBox="0 0 11 8" fill="none"><path d="M1 4L4 7L10 1" stroke="#0a1520" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><div class="task-content"><div class="task-text">Reach out to Jay — reschedule to 10:00 or 10:30 AM</div></div></div><div class="action-bar"><button class="act-btn hl-btn" onclick="taskToggleHL(this.closest(&#39;.task-wrap&#39;))">⚡ Highlight</button><button class="act-btn fu-btn" onclick="taskToggleFU(this.closest(&#39;.task-wrap&#39;))">🔁 Follow Up</button><button class="act-btn note-btn" onclick="taskToggleNote(this.closest(&#39;.task-wrap&#39;))">📝 Note</button><button class="act-btn" onclick="taskEdit(&#39;today&#39;,&#39;t4&#39;)">✏ Edit</button></div><div class="note-area"><textarea class="note-input" placeholder="Add a note..." oninput="taskSaveNote(this)"></textarea></div></div><div class="task-wrap done" data-sec="today" data-task="t5"><div class="task-row" onclick="taskToggleDone(this.closest(&#39;.task-wrap&#39;))"><div class="chk"><svg class="chkmark" viewBox="0 0 11 8" fill="none"><path d="M1 4L4 7L10 1" stroke="#0a1520" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><div class="task-content"><div class="task-text">Sort equipment allocation: MiOps vs. Valero McKee</div><div class="task-meta">Settle before Geoff leaves</div></div></div><div class="action-bar"><button class="act-btn hl-btn" onclick="taskToggleHL(this.closest(&#39;.task-wrap&#39;))">⚡ Highlight</button><button class="act-btn fu-btn" onclick="taskToggleFU(this.closest(&#39;.task-wrap&#39;))">🔁 Follow Up</button><button class="act-btn note-btn" onclick="taskToggleNote(this.closest(&#39;.task-wrap&#39;))">📝 Note</button><button class="act-btn" onclick="taskEdit(&#39;today&#39;,&#39;t5&#39;)">✏ Edit</button></div><div class="note-area"><textarea class="note-input" placeholder="Add a note..." oninput="taskSaveNote(this)"></textarea></div></div><div class="task-wrap done" data-sec="today" data-task="t6"><div class="task-row" onclick="taskToggleDone(this.closest(&#39;.task-wrap&#39;))"><div class="chk"><svg class="chkmark" viewBox="0 0 11 8" fill="none"><path d="M1 4L4 7L10 1" stroke="#0a1520" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><div class="task-content"><div class="task-text">Set up shipment — Valero McKee + confirm Texas City demo</div><div class="task-meta">2 units?</div></div></div><div class="action-bar"><button class="act-btn hl-btn" onclick="taskToggleHL(this.closest(&#39;.task-wrap&#39;))">⚡ Highlight</button><button class="act-btn fu-btn" onclick="taskToggleFU(this.closest(&#39;.task-wrap&#39;))">🔁 Follow Up</button><button class="act-btn note-btn" onclick="taskToggleNote(this.closest(&#39;.task-wrap&#39;))">📝 Note</button><button class="act-btn" onclick="taskEdit(&#39;today&#39;,&#39;t6&#39;)">✏ Edit</button></div><div class="note-area"><textarea class="note-input" placeholder="Add a note..." oninput="taskSaveNote(this)"></textarea></div></div><div class="task-wrap done" data-sec="today" data-task="t7"><div class="task-row" onclick="taskToggleDone(this.closest(&#39;.task-wrap&#39;))"><div class="chk"><svg class="chkmark" viewBox="0 0 11 8" fill="none"><path d="M1 4L4 7L10 1" stroke="#0a1520" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><div class="task-content"><div class="task-text">Confirm with Gabe — truck setup sent to billing</div></div></div><div class="action-bar"><button class="act-btn hl-btn" onclick="taskToggleHL(this.closest(&#39;.task-wrap&#39;))">⚡ Highlight</button><button class="act-btn fu-btn" onclick="taskToggleFU(this.closest(&#39;.task-wrap&#39;))">🔁 Follow Up</button><button class="act-btn note-btn" onclick="taskToggleNote(this.closest(&#39;.task-wrap&#39;))">📝 Note</button><button class="act-btn" onclick="taskEdit(&#39;today&#39;,&#39;t7&#39;)">✏ Edit</button></div><div class="note-area"><textarea class="note-input" placeholder="Add a note..." oninput="taskSaveNote(this)"></textarea></div></div><div class="task-wrap done" data-sec="today" data-task="t8"><div class="task-row" onclick="taskToggleDone(this.closest(&#39;.task-wrap&#39;))"><div class="chk"><svg class="chkmark" viewBox="0 0 11 8" fill="none"><path d="M1 4L4 7L10 1" stroke="#0a1520" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><div class="task-content"><div class="task-text">Create BOL for Valero McKee truck</div></div></div><div class="action-bar"><button class="act-btn hl-btn" onclick="taskToggleHL(this.closest(&#39;.task-wrap&#39;))">⚡ Highlight</button><button class="act-btn fu-btn" onclick="taskToggleFU(this.closest(&#39;.task-wrap&#39;))">🔁 Follow Up</button><button class="act-btn note-btn" onclick="taskToggleNote(this.closest(&#39;.task-wrap&#39;))">📝 Note</button><button class="act-btn" onclick="taskEdit(&#39;today&#39;,&#39;t8&#39;)">✏ Edit</button></div><div class="note-area"><textarea class="note-input" placeholder="Add a note..." oninput="taskSaveNote(this)"></textarea></div></div><div class="task-wrap done" data-sec="today" data-task="t9"><div class="task-row" onclick="taskToggleDone(this.closest(&#39;.task-wrap&#39;))"><div class="chk"><svg class="chkmark" viewBox="0 0 11 8" fill="none"><path d="M1 4L4 7L10 1" stroke="#0a1520" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><div class="task-content"><div class="task-text">Create BOL for MiOps (Michigan)</div></div></div><div class="action-bar"><button class="act-btn hl-btn" onclick="taskToggleHL(this.closest(&#39;.task-wrap&#39;))">⚡ Highlight</button><button class="act-btn fu-btn" onclick="taskToggleFU(this.closest(&#39;.task-wrap&#39;))">🔁 Follow Up</button><button class="act-btn note-btn" onclick="taskToggleNote(this.closest(&#39;.task-wrap&#39;))">📝 Note</button><button class="act-btn" onclick="taskEdit(&#39;today&#39;,&#39;t9&#39;)">✏ Edit</button></div><div class="note-area"><textarea class="note-input" placeholder="Add a note..." oninput="taskSaveNote(this)"></textarea></div></div><div class="task-wrap done followup" data-sec="today" data-task="t10"><div class="task-row" onclick="taskToggleDone(this.closest(&#39;.task-wrap&#39;))"><div class="chk"><svg class="chkmark" viewBox="0 0 11 8" fill="none"><path d="M1 4L4 7L10 1" stroke="#0a1520" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><div class="task-content"><div class="task-text">Reach out to Rupert — confirm shipment start</div></div></div><div class="action-bar"><button class="act-btn hl-btn" onclick="taskToggleHL(this.closest(&#39;.task-wrap&#39;))">⚡ Highlight</button><button class="act-btn fu-btn active" onclick="taskToggleFU(this.closest(&#39;.task-wrap&#39;))">🔁 Follow Up</button><button class="act-btn note-btn" onclick="taskToggleNote(this.closest(&#39;.task-wrap&#39;))">📝 Note</button><button class="act-btn" onclick="taskEdit(&#39;today&#39;,&#39;t10&#39;)">✏ Edit</button></div><div class="note-area"><textarea class="note-input" placeholder="Add a note..." oninput="taskSaveNote(this)"></textarea></div></div><div class="task-wrap done" data-sec="today" data-task="t13"><div class="task-row" onclick="taskToggleDone(this.closest(&#39;.task-wrap&#39;))"><div class="chk"><svg class="chkmark" viewBox="0 0 11 8" fill="none"><path d="M1 4L4 7L10 1" stroke="#0a1520" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><div class="task-content"><div class="task-text">Check with Dima — account balance / spending headroom</div></div></div><div class="action-bar"><button class="act-btn hl-btn" onclick="taskToggleHL(this.closest(&#39;.task-wrap&#39;))">⚡ Highlight</button><button class="act-btn fu-btn" onclick="taskToggleFU(this.closest(&#39;.task-wrap&#39;))">🔁 Follow Up</button><button class="act-btn note-btn" onclick="taskToggleNote(this.closest(&#39;.task-wrap&#39;))">📝 Note</button><button class="act-btn" onclick="taskEdit(&#39;today&#39;,&#39;t13&#39;)">✏ Edit</button></div><div class="note-area"><textarea class="note-input" placeholder="Add a note..." oninput="taskSaveNote(this)"></textarea></div></div><div class="task-wrap done" data-sec="today" data-task="t14"><div class="task-row" onclick="taskToggleDone(this.closest(&#39;.task-wrap&#39;))"><div class="chk"><svg class="chkmark" viewBox="0 0 11 8" fill="none"><path d="M1 4L4 7L10 1" stroke="#0a1520" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><div class="task-content"><div class="task-text">Decide: rubber wood work tables (2-pack ~$499) or maple top</div></div></div><div class="action-bar"><button class="act-btn hl-btn" onclick="taskToggleHL(this.closest(&#39;.task-wrap&#39;))">⚡ Highlight</button><button class="act-btn fu-btn" onclick="taskToggleFU(this.closest(&#39;.task-wrap&#39;))">🔁 Follow Up</button><button class="act-btn note-btn" onclick="taskToggleNote(this.closest(&#39;.task-wrap&#39;))">📝 Note</button><button class="act-btn" onclick="taskEdit(&#39;today&#39;,&#39;t14&#39;)">✏ Edit</button></div><div class="note-area"><textarea class="note-input" placeholder="Add a note..." oninput="taskSaveNote(this)"></textarea></div></div><div class="task-wrap done" data-sec="today" data-task="t15"><div class="task-row" onclick="taskToggleDone(this.closest(&#39;.task-wrap&#39;))"><div class="chk"><svg class="chkmark" viewBox="0 0 11 8" fill="none"><path d="M1 4L4 7L10 1" stroke="#0a1520" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><div class="task-content"><div class="task-text">Buy shipping table</div><div class="task-meta">Bottom shelf + computer, modeled after Gecko</div></div></div><div class="action-bar"><button class="act-btn hl-btn" onclick="taskToggleHL(this.closest(&#39;.task-wrap&#39;))">⚡ Highlight</button><button class="act-btn fu-btn" onclick="taskToggleFU(this.closest(&#39;.task-wrap&#39;))">🔁 Follow Up</button><button class="act-btn note-btn" onclick="taskToggleNote(this.closest(&#39;.task-wrap&#39;))">📝 Note</button><button class="act-btn" onclick="taskEdit(&#39;today&#39;,&#39;t15&#39;)">✏ Edit</button></div><div class="note-area"><textarea class="note-input" placeholder="Add a note..." oninput="taskSaveNote(this)"></textarea></div></div><div class="task-wrap done" data-sec="today" data-task="t16"><div class="task-row" onclick="taskToggleDone(this.closest(&#39;.task-wrap&#39;))"><div class="chk"><svg class="chkmark" viewBox="0 0 11 8" fill="none"><path d="M1 4L4 7L10 1" stroke="#0a1520" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><div class="task-content"><div class="task-text">Figure out remaining supply needs</div></div></div><div class="action-bar"><button class="act-btn hl-btn" onclick="taskToggleHL(this.closest(&#39;.task-wrap&#39;))">⚡ Highlight</button><button class="act-btn fu-btn" onclick="taskToggleFU(this.closest(&#39;.task-wrap&#39;))">🔁 Follow Up</button><button class="act-btn note-btn" onclick="taskToggleNote(this.closest(&#39;.task-wrap&#39;))">📝 Note</button><button class="act-btn" onclick="taskEdit(&#39;today&#39;,&#39;t16&#39;)">✏ Edit</button></div><div class="note-area"><textarea class="note-input" placeholder="Add a note..." oninput="taskSaveNote(this)"></textarea></div></div><div class="task-wrap done" data-sec="today" data-task="t17"><div class="task-row" onclick="taskToggleDone(this.closest(&#39;.task-wrap&#39;))"><div class="chk"><svg class="chkmark" viewBox="0 0 11 8" fill="none"><path d="M1 4L4 7L10 1" stroke="#0a1520" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><div class="task-content"><div class="task-text">Prepare Lunch &amp; Learn — Apache</div></div></div><div class="action-bar"><button class="act-btn hl-btn" onclick="taskToggleHL(this.closest(&#39;.task-wrap&#39;))">⚡ Highlight</button><button class="act-btn fu-btn" onclick="taskToggleFU(this.closest(&#39;.task-wrap&#39;))">🔁 Follow Up</button><button class="act-btn note-btn" onclick="taskToggleNote(this.closest(&#39;.task-wrap&#39;))">📝 Note</button><button class="act-btn" onclick="taskEdit(&#39;today&#39;,&#39;t17&#39;)">✏ Edit</button></div><div class="note-area"><textarea class="note-input" placeholder="Add a note..." oninput="taskSaveNote(this)"></textarea></div></div><div class="task-wrap done" data-sec="today" data-task="t18"><div class="task-row" onclick="taskToggleDone(this.closest(&#39;.task-wrap&#39;))"><div class="chk"><svg class="chkmark" viewBox="0 0 11 8" fill="none"><path d="M1 4L4 7L10 1" stroke="#0a1520" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><div class="task-content"><div class="task-text">Prepare Lunch &amp; Learn — Valero McKee</div></div></div><div class="action-bar"><button class="act-btn hl-btn" onclick="taskToggleHL(this.closest(&#39;.task-wrap&#39;))">⚡ Highlight</button><button class="act-btn fu-btn" onclick="taskToggleFU(this.closest(&#39;.task-wrap&#39;))">🔁 Follow Up</button><button class="act-btn note-btn" onclick="taskToggleNote(this.closest(&#39;.task-wrap&#39;))">📝 Note</button><button class="act-btn" onclick="taskEdit(&#39;today&#39;,&#39;t18&#39;)">✏ Edit</button></div><div class="note-area"><textarea class="note-input" placeholder="Add a note..." oninput="taskSaveNote(this)"></textarea></div></div><div class="task-wrap done" data-sec="today" data-task="t19"><div class="task-row" onclick="taskToggleDone(this.closest(&#39;.task-wrap&#39;))"><div class="chk"><svg class="chkmark" viewBox="0 0 11 8" fill="none"><path d="M1 4L4 7L10 1" stroke="#0a1520" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><div class="task-content"><div class="task-text">Noatum — POA</div></div></div><div class="action-bar"><button class="act-btn hl-btn" onclick="taskToggleHL(this.closest(&#39;.task-wrap&#39;))">⚡ Highlight</button><button class="act-btn fu-btn" onclick="taskToggleFU(this.closest(&#39;.task-wrap&#39;))">🔁 Follow Up</button><button class="act-btn note-btn" onclick="taskToggleNote(this.closest(&#39;.task-wrap&#39;))">📝 Note</button><button class="act-btn" onclick="taskEdit(&#39;today&#39;,&#39;t19&#39;)">✏ Edit</button></div><div class="note-area"><textarea class="note-input" placeholder="Add a note..." oninput="taskSaveNote(this)"></textarea></div></div></div></div><hr class="section-divider" style="margin-bottom:28px"></div><div class="day-section" id="sec-tomorrow"><div class="day-header"><span class="day-lbl">Tomorrow</span><span class="day-title">June 27, 2026</span><span class="day-count">1 / 1</span><button class="icon-btn" style="margin-left:8px" onclick="taskAdd(&#39;tomorrow&#39;)" title="Add task">＋</button></div><div class="prog-bar"><div class="prog-fill" style="width:100%"></div></div><div id="tasks-tomorrow"></div><div class="completed-section" id="comp-sec-tomorrow"><div class="completed-toggle"><span class="completed-toggle-label">✓ Completed</span><span class="completed-toggle-count">1 task</span><span class="completed-toggle-arrow">▼</span></div><div class="completed-list" id="comp-list-tomorrow"><div class="task-wrap done" data-sec="tomorrow" data-task="t21"><div class="task-row" onclick="taskToggleDone(this.closest(&#39;.task-wrap&#39;))"><div class="chk"><svg class="chkmark" viewBox="0 0 11 8" fill="none"><path d="M1 4L4 7L10 1" stroke="#0a1520" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><div class="task-content"><div class="task-text">Create BOL for Turner purchase</div></div></div><div class="action-bar"><button class="act-btn hl-btn" onclick="taskToggleHL(this.closest(&#39;.task-wrap&#39;))">⚡ Highlight</button><button class="act-btn fu-btn" onclick="taskToggleFU(this.closest(&#39;.task-wrap&#39;))">🔁 Follow Up</button><button class="act-btn note-btn" onclick="taskToggleNote(this.closest(&#39;.task-wrap&#39;))">📝 Note</button><button class="act-btn" onclick="taskEdit(&#39;tomorrow&#39;,&#39;t21&#39;)">✏ Edit</button></div><div class="note-area"><textarea class="note-input" placeholder="Add a note..." oninput="taskSaveNote(this)"></textarea></div></div></div></div><hr class="section-divider" style="margin-bottom:28px"></div><div class="day-section" id="sec-nw"><div class="day-header"><span class="day-lbl">Next Week</span><span class="day-title">Coming Up</span><span class="day-count">0 / 2</span><button class="icon-btn" style="margin-left:8px" onclick="taskAdd(&#39;nw&#39;)" title="Add task">＋</button></div><div class="prog-bar"><div class="prog-fill" style="width:0%"></div></div><div id="tasks-nw"><div class="task-wrap" data-sec="nw" data-task="t22"><div class="task-row" onclick="taskToggleDone(this.closest(&#39;.task-wrap&#39;))"><div class="chk"><svg class="chkmark" viewBox="0 0 11 8" fill="none"><path d="M1 4L4 7L10 1" stroke="#0a1520" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><div class="task-content"><div class="task-text">Confirm shipment booked for Valero McKee</div></div></div><div class="action-bar"><button class="act-btn hl-btn" onclick="taskToggleHL(this.closest(&#39;.task-wrap&#39;))">⚡ Highlight</button><button class="act-btn fu-btn" onclick="taskToggleFU(this.closest(&#39;.task-wrap&#39;))">🔁 Follow Up</button><button class="act-btn note-btn" onclick="taskToggleNote(this.closest(&#39;.task-wrap&#39;))">📝 Note</button><button class="act-btn" onclick="taskEdit(&#39;nw&#39;,&#39;t22&#39;)">✏ Edit</button></div><div class="note-area"><textarea class="note-input" placeholder="Add a note..." oninput="taskSaveNote(this)"></textarea></div></div><div class="task-wrap" data-sec="nw" data-task="t23"><div class="task-row" onclick="taskToggleDone(this.closest(&#39;.task-wrap&#39;))"><div class="chk"><svg class="chkmark" viewBox="0 0 11 8" fill="none"><path d="M1 4L4 7L10 1" stroke="#0a1520" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><div class="task-content"><div class="task-text">MINITRUCKS — Shipment to US</div></div></div><div class="action-bar"><button class="act-btn hl-btn" onclick="taskToggleHL(this.closest(&#39;.task-wrap&#39;))">⚡ Highlight</button><button class="act-btn fu-btn" onclick="taskToggleFU(this.closest(&#39;.task-wrap&#39;))">🔁 Follow Up</button><button class="act-btn note-btn" onclick="taskToggleNote(this.closest(&#39;.task-wrap&#39;))">📝 Note</button><button class="act-btn" onclick="taskEdit(&#39;nw&#39;,&#39;t23&#39;)">✏ Edit</button></div><div class="note-area"><textarea class="note-input" placeholder="Add a note..." oninput="taskSaveNote(this)"></textarea></div></div></div><div class="completed-section" id="comp-sec-nw"></div></div></div>
+  <div id="cl-container"></div>
 </div>
 
 <!-- JOB MODAL -->
@@ -223,8 +225,8 @@ tbody tr.job-closed .cell.site { background: #0a1520; }
     <div class="fg">
       <div class="fld full"><label>Site Name</label><input type="text" id="jf-site" placeholder="e.g. Exxon Baytown"></div>
       <div class="fld"><label>Unit #</label><input type="text" id="jf-lb" placeholder="76"></div>
-      <div class="fld"><label>Event Date</label><input type="text" id="jf-event" placeholder="6/23"></div>
-      <div class="fld"><label>Planned Ship Date</label><input type="text" id="jf-out" placeholder="6/19"></div>
+      <div class="fld"><label>Event Date</label><input type="date" id="jf-event"></div>
+      <div class="fld"><label>Planned Ship Date</label><input type="date" id="jf-out"></div>
       <div class="fld"><label>Tech</label><input type="text" id="jf-tech" placeholder="Isaac"></div>
       <div class="fld full"><label>Notes</label><input type="text" id="jf-notes" placeholder="Strapped, badging, etc."></div>
 
@@ -238,7 +240,7 @@ tbody tr.job-closed .cell.site { background: #0a1520; }
           <option value="na">N/A</option>
         </select>
       </div>
-      <div class="fld full" id="jf-indate-wrap"><label>Outbound Pickup Date</label><input type="text" id="jf-indate" placeholder="6/25"></div>
+      <div class="fld full" id="jf-indate-wrap"><label>Outbound Pickup Date</label><input type="date" id="jf-indate"></div>
 
       <hr class="modal-divider">
       <div class="modal-section-lbl">Return Carrier</div>
@@ -250,7 +252,7 @@ tbody tr.job-closed .cell.site { background: #0a1520; }
           <option value="na">N/A</option>
         </select>
       </div>
-      <div class="fld full" id="jf-retdate-wrap"><label>Return Pickup Date</label><input type="text" id="jf-retdate" placeholder="6/28"></div>
+      <div class="fld full" id="jf-retdate-wrap"><label>Return Pickup Date</label><input type="date" id="jf-retdate"></div>
     </div>
     <div class="modal-actions">
       <button class="btn-save" onclick="jobSave()">Save</button>
@@ -265,7 +267,7 @@ tbody tr.job-closed .cell.site { background: #0a1520; }
   <div class="modal">
     <h2 id="task-modal-title">Add Task</h2>
     <div class="fg">
-      <div class="fld full"><label>Task</label><input type="text" id="tf-text" placeholder="What needs to get done?" onkeydown="if(event.key===&#39;Enter&#39;)taskSave()"></div>
+      <div class="fld full"><label>Task</label><input type="text" id="tf-text" placeholder="What needs to get done?" onkeydown="if(event.key==='Enter')taskSave()"></div>
       <div class="fld full"><label>Sub-note (optional)</label><input type="text" id="tf-meta" placeholder="e.g. confirm with Geoff first"></div>
       <div class="fld full" style="flex-direction:row;align-items:center;gap:10px;padding-top:4px">
         <input type="checkbox" id="tf-priority" style="width:16px;height:16px;accent-color:#00c896;cursor:pointer">
@@ -288,7 +290,7 @@ tbody tr.job-closed .cell.site { background: #0a1520; }
         <h2>Kewazo Shipping Checklist</h2>
         <div id="ship-meta" style="font-size:12px;color:#4a6278;margin-top:4px"></div>
       </div>
-      <button class="icon-btn" style="font-size:18px" onclick="shipClose()">✕</button>
+      <button class="icon-btn" style="font-size:18px" onclick="shipClose()">&#x2715;</button>
     </div>
     <div id="ship-complete-banner" class="complete-banner">\u2705 All Items Returned to Shop \u2014 Checklist Complete!</div>
     <div id="ship-progress" style="margin:12px 0"></div>
@@ -307,7 +309,7 @@ tbody tr.job-closed .cell.site { background: #0a1520; }
     </div>
     <div class="modal-actions">
       <button class="btn-save" onclick="shipClose()">Done</button>
-      <button class="btn-save" style="background:#0d2a1a;border:1px solid #1e4a30;color:#00c896;flex:none;padding:11px 18px" onclick="shipDownload()">⬇ Export</button>
+      <button class="btn-save" style="background:#0d2a1a;border:1px solid #1e4a30;color:#00c896;flex:none;padding:11px 18px" onclick="shipDownload()">&#x2B07; Export</button>
     </div>
   </div>
 </div>
@@ -390,15 +392,98 @@ function renderCarrierCell(ins, ind) {
   return '<div class="carrier-booked"><span class="carrier-name">' + ins + '</span>' + (ind ? '<span class="carrier-date">\uD83D\uDCC5 ' + ind + '</span>' : '') + '</div>';
 }
 
-function makeStageRow(label, checked, colorClass, jobId, field) {
-  var wrap = document.createElement('div');
-  wrap.className = 'stage-row' + (checked ? ' active-' + colorClass : '');
-  wrap.onclick = (function(jid, f){ return function(e){ e.stopPropagation(); jobToggleStage(jid, f); }; })(jobId, field);
-  wrap.innerHTML =
-    '<div class="stage-box' + (checked ? ' checked-' + colorClass : '') + '">' +
-    (checked ? '<svg width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3 5.5L8 1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>' : '') +
-    '</div><span class="stage-label">' + label + '</span>';
-  return wrap;
+function makeShipStatusCell(j, isCompleted) {
+  var td = document.createElement('td');
+  td.className = 'cell';
+  td.style.minWidth = '200px';
+
+  if (isCompleted) {
+    var txt = '';
+    if (j.ins && j.ins !== 'needs-carrier' && j.ins !== 'na') txt += '<div style="font-size:11px;color:#00c896;font-weight:700">\u2192 ' + j.ins + (j.ind?' \u00B7 '+j.ind:'') + (j.shipped?' \u2713':'') + '</div>';
+    if (j.ret && j.ret !== 'needs-carrier' && j.ret !== 'na') txt += '<div style="font-size:11px;color:#2e75b6;font-weight:700;margin-top:4px">\u2190 ' + j.ret + (j.retd?' \u00B7 '+j.retd:'') + (j.returned?' \u2713':'') + '</div>';
+    td.innerHTML = txt || '<span class="badge badge-none">\u2014</span>';
+    return td;
+  }
+
+  // OUTBOUND section
+  var outDiv = document.createElement('div');
+  outDiv.style.marginBottom = '8px';
+
+  var outLabel = document.createElement('div');
+  outLabel.style.cssText = 'font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#4a6278;margin-bottom:4px';
+  outLabel.textContent = 'OUTBOUND';
+  outDiv.appendChild(outLabel);
+
+  if (j.ins === 'needs-carrier') {
+    var outNeeds = document.createElement('div');
+    outNeeds.className = 'carrier-needs';
+    outNeeds.textContent = '\u26A0 Needs Carrier';
+    outDiv.appendChild(outNeeds);
+  } else if (j.ins === 'na') {
+    var outNA = document.createElement('div');
+    outNA.style.cssText = 'font-size:11px;color:#2a3d52';
+    outNA.textContent = 'N/A';
+    outDiv.appendChild(outNA);
+  } else {
+    var outBooked = document.createElement('div');
+    outBooked.className = 'carrier-booked';
+    outBooked.innerHTML = '<span class="carrier-name">' + j.ins + '</span>' + (j.ind ? '<span class="carrier-date">\uD83D\uDCC5 ' + j.ind + '</span>' : '');
+    outDiv.appendChild(outBooked);
+
+    var outChkRow = document.createElement('div');
+    outChkRow.className = 'stage-row' + (j.shipped ? ' active-green' : '');
+    outChkRow.style.marginTop = '5px';
+    outChkRow.onclick = (function(jid){ return function(e){ e.stopPropagation(); jobToggleStage(jid,'shipped'); }; })(j.id);
+    outChkRow.innerHTML =
+      '<div class="stage-box' + (j.shipped?' checked-green':'') + '">' +
+      (j.shipped?'<svg width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3 5.5L8 1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>':'') +
+      '</div><span class="stage-label">Shipped</span>';
+    outDiv.appendChild(outChkRow);
+  }
+  td.appendChild(outDiv);
+
+  // Divider
+  var div = document.createElement('div');
+  div.style.cssText = 'height:1px;background:#1e2d3d;margin:4px 0 8px';
+  td.appendChild(div);
+
+  // RETURN section
+  var retDiv = document.createElement('div');
+
+  var retLabel = document.createElement('div');
+  retLabel.style.cssText = 'font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#4a6278;margin-bottom:4px';
+  retLabel.textContent = 'RETURN';
+  retDiv.appendChild(retLabel);
+
+  var retIns = j.ret || 'needs-carrier';
+  if (retIns === 'needs-carrier') {
+    var retNeeds = document.createElement('div');
+    retNeeds.className = 'carrier-needs';
+    retNeeds.textContent = '\u26A0 Needs Carrier';
+    retDiv.appendChild(retNeeds);
+  } else if (retIns === 'na') {
+    var retNA = document.createElement('div');
+    retNA.style.cssText = 'font-size:11px;color:#2a3d52';
+    retNA.textContent = 'N/A';
+    retDiv.appendChild(retNA);
+  } else {
+    var retBooked = document.createElement('div');
+    retBooked.className = 'carrier-booked';
+    retBooked.innerHTML = '<span class="carrier-name" style="color:#2e75b6">' + retIns + '</span>' + (j.retd ? '<span class="carrier-date">\uD83D\uDCC5 ' + j.retd + '</span>' : '');
+    retDiv.appendChild(retBooked);
+
+    var retChkRow = document.createElement('div');
+    retChkRow.className = 'stage-row' + (j.returned ? ' active-blue' : '');
+    retChkRow.style.marginTop = '5px';
+    retChkRow.onclick = (function(jid){ return function(e){ e.stopPropagation(); jobToggleStage(jid,'returned'); }; })(j.id);
+    retChkRow.innerHTML =
+      '<div class="stage-box' + (j.returned?' checked-blue':'') + '">' +
+      (j.returned?'<svg width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3 5.5L8 1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>':'') +
+      '</div><span class="stage-label">Returned</span>';
+    retDiv.appendChild(retChkRow);
+  }
+  td.appendChild(retDiv);
+  return td;
 }
 
 function makeJobRow(j, isCompleted) {
@@ -407,30 +492,6 @@ function makeJobRow(j, isCompleted) {
 
   var tr = document.createElement('tr');
   if (isCompleted) tr.className = 'job-closed';
-
-  // Stage cell
-  var stageTd = document.createElement('td');
-  stageTd.className = 'cell';
-  if (!isCompleted) {
-    var stageWrap = document.createElement('div');
-    stageWrap.className = 'stage-cell';
-    if (j.out) {
-      var dateLbl = document.createElement('div');
-      dateLbl.className = 'stage-date';
-      dateLbl.textContent = 'Planned: ' + j.out;
-      stageWrap.appendChild(dateLbl);
-    }
-    stageWrap.appendChild(makeStageRow('Booked',   j.booked||false,   'orange', j.id, 'booked'));
-    stageWrap.appendChild(makeStageRow('Shipped',  j.shipped||false,  'green',  j.id, 'shipped'));
-    stageWrap.appendChild(makeStageRow('Returned', j.returned||false, 'blue',   j.id, 'returned'));
-    stageTd.appendChild(stageWrap);
-  } else {
-    var sh = '';
-    if (j.booked)   sh += '<span class="badge" style="background:#1e1200;color:#f5a623;border:1px solid #4a3800;display:block;margin-bottom:3px">\u2713 Booked</span>';
-    if (j.shipped)  sh += '<span class="badge badge-shipped" style="display:block;margin-bottom:3px">\u2713 Shipped</span>';
-    if (j.returned) sh += '<span class="badge badge-done" style="display:block">\u2713 Returned</span>';
-    stageTd.innerHTML = sh || '<span class="badge badge-none">\u2014</span>';
-  }
 
   var actionBtns = isCompleted
     ? '<button class="icon-btn" onclick="jobReopen(' + j.id + ')" style="font-size:12px;color:#4a6278">\u21A9 Reopen</button>'
@@ -442,15 +503,13 @@ function makeJobRow(j, isCompleted) {
     '<td class="cell site">' + j.site + '</td>' +
     '<td class="cell">' + lb + '</td>' +
     '<td class="cell">' + ev + '</td>' +
-    '<td class="cell carrier-cell">' + renderCarrierCell(j.ins, j.ind) + '</td>' +
     '<td class="cell">' + (j.tech || '<span style="color:#2a3d52">\u2014</span>') + '</td>' +
-    '<td class="cell carrier-cell">' + renderCarrierCell(j.ret||'needs-carrier', j.retd||'') + '</td>' +
-    '<td class="cell stage-placeholder-' + j.id + '"></td>' +
-    '<td class="cell" style="font-size:12px;color:#4a6278;max-width:100px;white-space:normal">' + (j.notes||'') + '</td>' +
+    '<td class="cell ship-status-ph-' + j.id + '"></td>' +
+    '<td class="cell" style="font-size:12px;color:#4a6278;max-width:110px;white-space:normal">' + (j.notes||'') + '</td>' +
     '<td class="cell" style="white-space:nowrap">' + actionBtns + '</td>';
 
-  var ph = tr.querySelector('.stage-placeholder-' + j.id);
-  ph.replaceWith(stageTd);
+  var ph = tr.querySelector('.ship-status-ph-' + j.id);
+  ph.replaceWith(makeShipStatusCell(j, isCompleted));
   return tr;
 }
 
@@ -485,20 +544,46 @@ function jobEdit(id) {
   document.getElementById('job-modal-title').textContent = 'Edit \u2014 ' + j.site;
   document.getElementById('jf-site').value    = j.site;
   document.getElementById('jf-lb').value      = j.lb;
-  document.getElementById('jf-out').value     = j.out;
-  document.getElementById('jf-event').value   = j.event;
+  document.getElementById('jf-out').value     = toInputDate(j.out);
+  document.getElementById('jf-event').value   = toInputDate(j.event);
   document.getElementById('jf-tech').value    = j.tech;
   document.getElementById('jf-notes').value   = j.notes;
   document.getElementById('jf-ins').value     = j.ins   || 'needs-carrier';
-  document.getElementById('jf-indate').value  = j.ind   || '';
+  document.getElementById('jf-indate').value  = toInputDate(j.ind  || '');
   document.getElementById('jf-ret').value     = j.ret   || 'needs-carrier';
-  document.getElementById('jf-retdate').value = j.retd  || '';
+  document.getElementById('jf-retdate').value = toInputDate(j.retd || '');
   document.getElementById('job-del-btn').style.display = 'inline-block';
   toggleCarrierDates();
   document.getElementById('job-modal').classList.add('open');
 }
 
 function jobModalClose() { document.getElementById('job-modal').classList.remove('open'); editJobId=null; }
+
+// Convert YYYY-MM-DD to M/D for display, and M/D to YYYY-MM-DD for date input
+function toInputDate(str) {
+  if (!str) return '';
+  // Already in YYYY-MM-DD format
+  if (str.match(/^\d{4}-\d{2}-\d{2}$/)) return str;
+  // Convert M/D or M/D/YY to YYYY-MM-DD
+  var parts = str.split('/');
+  if (parts.length >= 2) {
+    var yr = parts[2] ? (parts[2].length===2 ? '20'+parts[2] : parts[2]) : new Date().getFullYear();
+    var mo = parts[0].padStart(2,'0');
+    var dy = parts[1].padStart(2,'0');
+    return yr + '-' + mo + '-' + dy;
+  }
+  return '';
+}
+
+function fromInputDate(str) {
+  if (!str) return '';
+  // Convert YYYY-MM-DD to M/D
+  var parts = str.split('-');
+  if (parts.length === 3) {
+    return parseInt(parts[1]) + '/' + parseInt(parts[2]);
+  }
+  return str;
+}
 
 function toggleCarrierDates() {
   var ins = document.getElementById('jf-ins').value;
@@ -513,14 +598,14 @@ function jobSave() {
   var data = {
     site:  document.getElementById('jf-site').value.trim(),
     lb:    document.getElementById('jf-lb').value.trim(),
-    out:   document.getElementById('jf-out').value.trim(),
-    event: document.getElementById('jf-event').value.trim(),
+    out:   fromInputDate(document.getElementById('jf-out').value.trim()),
+    event: fromInputDate(document.getElementById('jf-event').value.trim()),
     tech:  document.getElementById('jf-tech').value.trim(),
     notes: document.getElementById('jf-notes').value.trim(),
     ins:   document.getElementById('jf-ins').value,
-    ind:   document.getElementById('jf-indate').value.trim(),
+    ind:   fromInputDate(document.getElementById('jf-indate').value.trim()),
     ret:   document.getElementById('jf-ret').value,
-    retd:  document.getElementById('jf-retdate').value.trim()
+    retd:  fromInputDate(document.getElementById('jf-retdate').value.trim())
   };
   if (!data.site) return;
   var jobs = getJobs();
@@ -581,7 +666,12 @@ function isOutboundLocked(jd) {
 
 function isAllReturned(jd) {
   if (!isOutboundLocked(jd)) return false;
-  return SHIP_ITEMS.every(function(item){ return (jd[item.num]||{}).returned === true; });
+  return SHIP_ITEMS.every(function(item) {
+    var s = (jd[item.num]||{});
+    // Skip variable items that were left blank outbound
+    if (item.v && (s.outQty===undefined || s.outQty==='')) return true;
+    return s.returned === true;
+  });
 }
 
 function getShipStatus(jobId) {
@@ -1064,6 +1154,5 @@ document.getElementById('task-modal').addEventListener('click', function(e){ if(
 renderChecklist();
 
 </script>
-
-
-</body></html>
+</body>
+</html>
