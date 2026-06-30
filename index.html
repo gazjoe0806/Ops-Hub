@@ -362,6 +362,8 @@ function pushDirty() {
   _dirty = {};
   fetch(SCRIPT_URL, {
     method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
     body: JSON.stringify({action:'setAll', data:batch})
   }).then(function() {
     showSync('saved');
@@ -371,30 +373,50 @@ function pushDirty() {
   });
 }
 
-// Pull all keys from Google Sheets on load
+// Pull all keys from Google Sheets on load - JSONP to bypass CORS on GET
 function pullAll(cb) {
   showSync('saving');
-  fetch(SCRIPT_URL + '?action=getAll')
-    .then(function(r){ return r.json(); })
-    .then(function(data) {
-      if (data && data.values) {
-        data.values.forEach(function(row) {
-          if (row.key && row.value) {
-            try {
-              _cache[row.key] = JSON.parse(row.value);
-              localStorage.setItem(row.key, row.value);
-            } catch(e) {}
-          }
-        });
-      }
-      showSync('saved');
-      setTimeout(function(){ showSync(''); }, 2000);
-      if (cb) cb();
-    })
-    .catch(function() {
-      showSync('error');
-      if (cb) cb();
-    });
+  var callbackName = 'jsonpCb_' + Date.now();
+  var timeoutId = setTimeout(function() {
+    showSync('error');
+    if (cb) cb();
+    cleanup();
+  }, 8000);
+
+  function cleanup() {
+    clearTimeout(timeoutId);
+    delete window[callbackName];
+    var s = document.getElementById(callbackName);
+    if (s) s.remove();
+  }
+
+  window[callbackName] = function(data) {
+    clearTimeout(timeoutId);
+    if (data && data.values) {
+      data.values.forEach(function(row) {
+        if (row.key && row.value) {
+          try {
+            _cache[row.key] = JSON.parse(row.value);
+            localStorage.setItem(row.key, row.value);
+          } catch(e) {}
+        }
+      });
+    }
+    showSync('saved');
+    setTimeout(function(){ showSync(''); }, 2000);
+    if (cb) cb();
+    cleanup();
+  };
+
+  var script = document.createElement('script');
+  script.id = callbackName;
+  script.src = SCRIPT_URL + '?action=getAll&callback=' + callbackName;
+  script.onerror = function() {
+    showSync('error');
+    if (cb) cb();
+    cleanup();
+  };
+  document.body.appendChild(script);
 }
 
 // ══════════════════════════════════════════════════
