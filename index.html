@@ -360,17 +360,35 @@ function pushDirty() {
   var batch = {};
   keys.forEach(function(k) { batch[k] = JSON.stringify(_dirty[k]); });
   _dirty = {};
-  fetch(SCRIPT_URL, {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-    body: JSON.stringify({action:'setAll', data:batch})
-  }).then(function() {
+
+  // Use hidden iframe + form POST to reliably reach Apps Script (bypasses fetch/CORS issues entirely)
+  var iframeName = 'pushFrame_' + Date.now();
+  var iframe = document.createElement('iframe');
+  iframe.name = iframeName;
+  iframe.style.display = 'none';
+  document.body.appendChild(iframe);
+
+  var form = document.createElement('form');
+  form.action = SCRIPT_URL;
+  form.method = 'POST';
+  form.target = iframeName;
+  form.style.display = 'none';
+
+  var input = document.createElement('input');
+  input.type = 'hidden';
+  input.name = 'payload';
+  input.value = JSON.stringify({action:'setAll', data:batch});
+  form.appendChild(input);
+
+  document.body.appendChild(form);
+  form.submit();
+
+  setTimeout(function() {
     showSync('saved');
     setTimeout(function(){ showSync(''); }, 3000);
-  }).catch(function() {
-    showSync('error');
-  });
+    form.remove();
+    iframe.remove();
+  }, 1200);
 }
 
 // Pull all keys from Google Sheets on load - JSONP to bypass CORS on GET
