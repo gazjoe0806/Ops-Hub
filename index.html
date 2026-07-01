@@ -7,7 +7,17 @@
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #0a1520; color: #e8edf2; min-height: 100vh; padding: 0 0 80px; }
+
+/* HEADER */
 .app-header { background: #060f18; border-bottom: 1px solid #1e2d3d; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 10; gap: 12px; flex-wrap: wrap; }
+.app-title { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #4a6278; cursor: default; user-select: none; -webkit-tap-highlight-color: transparent; }
+.app-title span { display: block; font-size: 18px; color: #fff; letter-spacing: 0.02em; margin-top: 2px; }
+.app-date { font-size: 12px; color: #4a6278; text-align: right; }
+.app-date span { display: block; font-size: 15px; font-weight: 600; color: #c8d6e2; margin-top: 2px; }
+.view-toggle { display: flex; background: #0d1e2d; border: 1px solid #1e2d3d; border-radius: 6px; overflow: hidden; }
+.view-btn { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 7px 18px; cursor: pointer; border: none; background: transparent; color: #4a6278; transition: all 0.2s; }
+.view-btn.active { background: #2e75b6; color: #fff; }
+.view-btn:hover:not(.active) { color: #c8d6e2; background: #1a2535; }
 .header-btns { display: flex; gap: 8px; align-items: center; }
 .hdr-btn { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; padding: 6px 12px; border-radius: 5px; cursor: pointer; white-space: nowrap; }
 .hdr-btn-export { background: #1a3a5c; border: 1px solid #2e75b6; color: #7ab8f5; }
@@ -16,10 +26,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
 .hdr-btn-import:hover { background: #1e4a1e; }
 .hdr-btn-reset { background: transparent; border: 1px solid #4a1a1a; color: #ff6b6b; }
 .hdr-btn-reset:hover { background: #2a0d0d; }
-.app-title { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #4a6278; }
-.app-title span { display: block; font-size: 18px; color: #fff; letter-spacing: 0.02em; margin-top: 2px; }
-.app-date { font-size: 12px; color: #4a6278; text-align: right; }
-.app-date span { display: block; font-size: 15px; font-weight: 600; color: #c8d6e2; margin-top: 2px; }
+
+/* LAYOUT */
 .section-block { padding: 28px 20px 0; max-width: 1100px; margin: 0 auto; }
 .section-label { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #2e75b6; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
 .section-label::after { content: ''; flex: 1; height: 1px; background: #1e2d3d; }
@@ -28,45 +36,53 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
 .add-btn { background: #1a3a5c; border: 1px solid #2e75b6; color: #7ab8f5; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 7px 14px; border-radius: 6px; cursor: pointer; }
 .add-btn:hover { background: #1e4a78; }
 .table-wrap { overflow-x: auto; border-radius: 10px; border: 1px solid #1e2d3d; }
-table { width: 100%; border-collapse: collapse; min-width: 800px; }
+table { width: 100%; border-collapse: collapse; min-width: 600px; }
 thead th { background: #0d1e2d; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #4a6278; padding: 10px 12px; text-align: left; border-bottom: 1px solid #1e2d3d; white-space: nowrap; }
 thead th:first-child { position: sticky; left: 0; background: #0d1e2d; z-index: 3; box-shadow: 2px 0 8px rgba(0,0,0,0.5); }
-tbody tr { border-bottom: 1px solid #0f1d28; }
+tbody tr { border-bottom: 1px solid #0f1d28; transition: background 0.15s; }
 tbody tr:hover { background: #0f1d2a; }
 tbody tr.job-closed { opacity: 0.4; }
-tbody tr.job-closed .cell.site { text-decoration: line-through; color: #4a6278; }
 .cell { padding: 10px 12px; font-size: 14px; color: #c8d6e2; vertical-align: middle; white-space: nowrap; }
 .cell.site { font-weight: 600; color: #fff; min-width: 130px; position: sticky; left: 0; background: #0a1520; z-index: 2; box-shadow: 2px 0 8px rgba(0,0,0,0.5); }
 tbody tr:hover .cell.site { background: #0f1d2a; }
-tbody tr.job-closed .cell.site { background: #0a1520; }
+tbody tr.job-closed .cell.site { background: #0a1520; text-decoration: line-through; color: #4a6278; }
+
+/* BADGES */
 .badge { display: inline-flex; align-items: center; font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; }
-.badge-shipped   { background: #0d2219; color: #00c896; border: 1px solid #1e4a30; }
-.badge-pending   { background: #1e1a0d; color: #f5a623; border: 1px solid #4a3800; }
-.badge-none      { background: #111d28; color: #2a3d52; border: 1px solid #1a2535; }
-.badge-done      { background: #0d1e2d; color: #2e75b6; border: 1px solid #1a3a5c; }
-.badge-carrier   { background: #2a0d0d; color: #ff6b6b; border: 1px solid #4a1a1a; }
-.badge-confirmed { background: #0d2219; color: #00c896; border: 1px solid #1e4a30; }
+.badge-pending  { background: #1e1a0d; color: #f5a623; border: 1px solid #4a3800; }
+.badge-none     { background: #111d28; color: #2a3d52; border: 1px solid #1a2535; }
 .lb-num { display: inline-block; background: #1a1a2e; border: 1px solid #2a3d6e; color: #a0b4f0; font-size: 13px; font-weight: 700; padding: 3px 10px; border-radius: 4px; min-width: 36px; text-align: center; }
-.icon-btn { background: none; border: none; color: #2a3d52; font-size: 15px; cursor: pointer; padding: 4px 6px; border-radius: 4px; transition: all 0.15s; }
-.icon-btn:hover { color: #7ab8f5; background: #0d1e2d; }
-.closeout-btn { background: none; border: 1px solid #1e3a2a; color: #00c896; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; cursor: pointer; white-space: nowrap; }
-.closeout-btn:hover { background: #0d2219; }
-.carrier-cell { min-width: 120px; }
-.carrier-booked { display: flex; flex-direction: column; gap: 2px; }
-.carrier-name { font-size: 12px; font-weight: 700; color: #00c896; letter-spacing: 0.06em; text-transform: uppercase; }
-.carrier-date { font-size: 11px; color: #4a6278; }
-.carrier-needs { font-size: 11px; font-weight: 700; color: #ff6b6b; letter-spacing: 0.04em; text-transform: uppercase; }
-.stage-cell { display: flex; flex-direction: column; gap: 5px; min-width: 110px; }
-.stage-row { display: flex; align-items: center; gap: 6px; cursor: pointer; user-select: none; -webkit-tap-highlight-color: transparent; }
-.stage-box { width: 16px; height: 16px; border-radius: 3px; border: 2px solid #2a3d52; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s; background: transparent; }
-.stage-box.checked-green  { background: #00c896; border-color: #00c896; }
-.stage-box.checked-blue   { background: #2e75b6; border-color: #2e75b6; }
-.stage-box.checked-orange { background: #f5a623; border-color: #f5a623; }
-.stage-label { font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #2a3d52; transition: color 0.2s; }
-.stage-row.active-green  .stage-label { color: #00c896; }
-.stage-row.active-blue   .stage-label { color: #2e75b6; }
-.stage-row.active-orange .stage-label { color: #f5a623; }
-.stage-date { font-size: 10px; color: #4a6278; margin-left: 22px; }
+
+/* STATUS BADGES */
+.status-badge { display: inline-flex; align-items: center; font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; padding: 3px 10px; border-radius: 4px; white-space: nowrap; }
+.st-upcoming     { background: #111d28; color: #4a6278; border: 1px solid #1e2d3d; }
+.st-scheduled    { background: #0d1e2d; color: #2e75b6; border: 1px solid #1a3a5c; }
+.st-onsite       { background: #0d2219; color: #00c896; border: 1px solid #1e4a30; }
+.st-retbooked    { background: #1e1a0d; color: #f5a623; border: 1px solid #4a3800; }
+.st-complete     { background: #111d28; color: #2a3d52; border: 1px solid #1a2535; }
+
+/* INLINE SHIPMENT CONTROLS */
+.ship-ctrl { display: flex; flex-direction: column; gap: 6px; min-width: 180px; }
+.ship-ctrl-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.ship-ctrl-label { font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #4a6278; min-width: 58px; }
+.ship-select { background: #111d28; border: 1px solid #1e2d3d; border-radius: 4px; color: #e8edf2; font-size: 12px; padding: 4px 6px; outline: none; cursor: pointer; max-width: 120px; }
+.ship-select:focus { border-color: #2e75b6; }
+.ship-select.booked { border-color: #2e75b6; color: #7ab8f5; }
+.ship-date { background: #111d28; border: 1px solid #1e2d3d; border-radius: 4px; color: #e8edf2; font-size: 12px; padding: 3px 6px; outline: none; cursor: pointer; color-scheme: dark; }
+.ship-date:focus { border-color: #2e75b6; }
+.ship-chk-row { display: flex; align-items: center; gap: 6px; cursor: pointer; user-select: none; margin-top: 2px; }
+.ship-chk-box { width: 16px; height: 16px; border-radius: 3px; border: 2px solid #2a3d52; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s; background: transparent; }
+.ship-chk-box.checked-green { background: #00c896; border-color: #00c896; }
+.ship-chk-box.checked-orange { background: #f5a623; border-color: #f5a623; }
+.ship-chk-box.checked-blue { background: #2e75b6; border-color: #2e75b6; }
+.ship-chk-lbl { font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #2a3d52; }
+.ship-chk-row.active-green .ship-chk-lbl { color: #00c896; }
+.ship-chk-row.active-orange .ship-chk-lbl { color: #f5a623; }
+.ship-chk-row.active-blue .ship-chk-lbl { color: #2e75b6; }
+.warn-badge { display: inline-flex; align-items: center; font-size: 12px; font-weight: 900; color: #ff4444; margin-left: 4px; }
+.ship-divider { height: 1px; background: #1e2d3d; margin: 4px 0; }
+
+/* CLOSED JOBS TOGGLE */
 .completed-jobs-toggle { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: #060f18; border: 1px solid #1e2d3d; border-radius: 8px; cursor: pointer; user-select: none; margin-top: 12px; }
 .completed-jobs-toggle:hover { background: #0d1e2d; }
 .completed-jobs-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #2a3d52; flex: 1; }
@@ -75,16 +91,19 @@ tbody tr.job-closed .cell.site { background: #0a1520; }
 .completed-jobs-toggle.open .completed-jobs-arrow { transform: rotate(180deg); }
 .completed-jobs-list { display: none; margin-top: 4px; border-radius: 10px; border: 1px solid #1e2d3d; overflow-x: auto; }
 .completed-jobs-list.open { display: block; }
+
+/* SHIPPING LOG */
 .ship-log-row { display: flex; align-items: center; justify-content: space-between; padding: 13px 16px; border-bottom: 1px solid #0f1d28; cursor: pointer; transition: background 0.15s; gap: 12px; flex-wrap: wrap; }
 .ship-log-row:hover { background: #0f1d2a; }
 .ship-log-row:last-child { border-bottom: none; }
 .ship-log-site { font-size: 14px; font-weight: 600; color: #fff; }
 .ship-log-meta { font-size: 12px; color: #4a6278; margin-top: 2px; }
-.ship-log-status { display: inline-flex; align-items: center; font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; padding: 3px 10px; border-radius: 4px; white-space: nowrap; }
 .sls-returned { background: #0d1e2d; color: #2e75b6; border: 1px solid #1a3a5c; }
 .sls-locked   { background: #0d2219; color: #00c896; border: 1px solid #1e4a30; }
 .sls-partial  { background: #1e1a0d; color: #f5a623; border: 1px solid #4a3800; }
 .sls-empty    { background: #111d28; color: #2a3d52; border: 1px solid #1a2535; }
+
+/* CHECKLIST */
 .day-section { margin-bottom: 36px; }
 .day-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
 .day-lbl { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #4a6278; }
@@ -131,9 +150,11 @@ tbody tr.job-closed .cell.site { background: #0a1520; }
 .completed-toggle.open .completed-toggle-arrow { transform: rotate(180deg); }
 .completed-list { display: none; }
 .completed-list.open { display: block; }
+
+/* MODALS */
 .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 200; align-items: center; justify-content: center; padding: 20px; }
 .modal-overlay.open { display: flex; }
-.modal { background: #0d1e2d; border: 1px solid #2e75b6; border-radius: 12px; padding: 24px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; }
+.modal { background: #0d1e2d; border: 1px solid #2e75b6; border-radius: 12px; padding: 24px; width: 100%; max-width: 460px; max-height: 90vh; overflow-y: auto; }
 .modal h2 { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 20px; }
 .fg { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 4px; }
 .fld { display: flex; flex-direction: column; gap: 5px; }
@@ -144,7 +165,6 @@ tbody tr.job-closed .cell.site { background: #0a1520; }
 .fld input[type="date"] { color-scheme: dark; cursor: pointer; }
 .fld select option { background: #111d28; }
 .modal-divider { grid-column: 1/-1; border: none; border-top: 1px solid #1e2d3d; margin: 8px 0 4px; }
-.modal-section-lbl { grid-column: 1/-1; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #2e75b6; margin-bottom: -4px; }
 .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
 .btn-save { flex: 1; background: #2e75b6; border: none; color: #fff; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 11px; border-radius: 6px; cursor: pointer; }
 .btn-save:hover { background: #3a8fd4; }
@@ -152,6 +172,12 @@ tbody tr.job-closed .cell.site { background: #0a1520; }
 .btn-cancel:hover { border-color: #4a6278; color: #c8d6e2; }
 .btn-del { background: transparent; border: 1px solid #4a1a1a; color: #ff6b6b; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 11px 14px; border-radius: 6px; cursor: pointer; }
 .btn-del:hover { background: #2a0d0d; }
+.icon-btn { background: none; border: none; color: #2a3d52; font-size: 15px; cursor: pointer; padding: 4px 6px; border-radius: 4px; transition: all 0.15s; }
+.icon-btn:hover { color: #7ab8f5; background: #0d1e2d; }
+.closeout-btn { background: none; border: 1px solid #1e3a2a; color: #00c896; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; cursor: pointer; white-space: nowrap; }
+.closeout-btn:hover { background: #0d2219; }
+
+/* SHIPPING CHECKLIST MODAL */
 .cl-note-input { width: 100%; min-width: 70px; background: #111d28; border: 1px solid #1e2d3d; border-radius: 4px; color: #c8d6e2; font-size: 12px; padding: 4px 7px; outline: none; }
 .cl-note-input:focus { border-color: #2e75b6; }
 .cl-sec-row td { padding: 5px 10px; font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #2e75b6; background: #060f18; border-bottom: 1px solid #1e2d3d; }
@@ -159,15 +185,28 @@ tbody tr.job-closed .cell.site { background: #0a1520; }
 .ret-chk { width: 22px; height: 22px; border-radius: 4px; border: 2px solid #2a3d52; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s; background: transparent; cursor: pointer; }
 .ret-chk.checked { background: #2e75b6; border-color: #2e75b6; }
 .ret-chk:hover { border-color: #2e75b6; }
-.complete-banner { display: none; border-radius: 8px; padding: 14px 18px; margin-bottom: 14px; background: #0d2219; border: 1px solid #1e4a30; color: #00c896; font-size: 14px; font-weight: 700; text-align: center; letter-spacing: 0.04em; }
+.complete-banner { display: none; border-radius: 8px; padding: 14px 18px; margin-bottom: 14px; background: #0d2219; border: 1px solid #1e4a30; color: #00c896; font-size: 14px; font-weight: 700; text-align: center; }
 .complete-banner.show { display: block; }
+
+/* VIEW CLASSES */
+.ops-only { display: block; }
+.sales-only { display: none; }
+body.sales-view .ops-only { display: none; }
+body.sales-view .sales-only { display: block; }
+body.sales-view .ops-header-btns { display: none !important; }
+.checklist-section { display: none !important; }
+body.checklist-unlocked .checklist-section { display: block !important; }
 </style>
 </head>
 <body>
 
 <div class="app-header">
-  <div class="app-title">Kewazo US Ops<span>Ops Hub</span></div>
-  <div class="header-btns">
+  <div class="app-title" id="ops-label">Kewazo US Ops<span>Ops Hub</span></div>
+  <div class="view-toggle">
+    <button class="view-btn" id="btn-sales" onclick="setView('sales')">Sales</button>
+    <button class="view-btn" id="btn-ops"   onclick="setView('ops')">Ops</button>
+  </div>
+  <div class="header-btns ops-header-btns">
     <span id="sync-indicator" style="font-size:11px;font-weight:700;letter-spacing:0.06em;color:#4a6278;min-width:80px;text-align:right"></span>
     <button class="hdr-btn hdr-btn-export" onclick="exportData()">&#x2B07; Export</button>
     <button class="hdr-btn hdr-btn-import" onclick="document.getElementById('import-file').click()">&#x2B06; Import</button>
@@ -177,13 +216,25 @@ tbody tr.job-closed .cell.site { background: #0a1520; }
   <div class="app-date">Joel<span id="hdr-date"></span></div>
 </div>
 
-<!-- JOB BOARD -->
-<div class="section-block">
+<!-- SALES VIEW -->
+<div class="section-block sales-only">
+  <div class="section-label">Job Pipeline</div>
+  <div class="board-controls"><button class="add-btn" onclick="salesJobAdd()">+ Add Job</button></div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Site</th><th>Unit #</th><th>Event Date</th><th>Tech</th><th>Status</th></tr></thead>
+      <tbody id="sales-job-body"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- OPS VIEW - JOB BOARD -->
+<div class="section-block ops-only">
   <div class="section-label">Job Board</div>
   <div class="board-controls"><button class="add-btn" onclick="jobAdd()">+ Add Job</button></div>
   <div class="table-wrap">
     <table>
-      <thead><tr><th>Site</th><th>Unit #</th><th>Event</th><th>Tech</th><th>Shipment Status</th><th>Notes</th><th></th></tr></thead>
+      <thead><tr><th>Site</th><th>Unit #</th><th>Event Date</th><th>Tech</th><th>Status</th><th>Shipment</th><th>Notes</th><th></th></tr></thead>
       <tbody id="job-body"></tbody>
     </table>
   </div>
@@ -194,31 +245,47 @@ tbody tr.job-closed .cell.site { background: #0a1520; }
   </div>
   <div class="completed-jobs-list" id="comp-jobs-list">
     <table>
-      <thead><tr><th>Site</th><th>Unit #</th><th>Event</th><th>Tech</th><th>Shipment Status</th><th>Notes</th><th></th></tr></thead>
+      <thead><tr><th>Site</th><th>Unit #</th><th>Event Date</th><th>Tech</th><th>Status</th><th>Shipment</th><th>Notes</th><th></th></tr></thead>
       <tbody id="comp-job-body"></tbody>
     </table>
   </div>
 </div>
 
-<hr class="section-divider">
+<hr class="section-divider ops-only">
 
 <!-- SHIPPING CHECKLISTS LOG -->
-<div class="section-block">
+<div class="section-block ops-only">
   <div class="section-label">Shipping Checklists</div>
   <div style="border-radius:10px;border:1px solid #1e2d3d;overflow:hidden">
     <div id="ship-log-body"></div>
   </div>
 </div>
 
-<hr class="section-divider">
+<hr class="section-divider ops-only">
 
-<!-- CHECKLIST -->
-<div class="section-block">
+<!-- DAILY CHECKLIST - unlocked per device only -->
+<div class="section-block checklist-section ops-only">
   <div class="section-label">Daily Checklist</div>
   <div id="cl-container"></div>
 </div>
 
-<!-- JOB MODAL -->
+<!-- SALES ADD JOB MODAL -->
+<div class="modal-overlay" id="sales-job-modal">
+  <div class="modal">
+    <h2>Add Job</h2>
+    <div class="fg">
+      <div class="fld full"><label>Site Name</label><input type="text" id="sjf-site" placeholder="e.g. Exxon Baytown" onkeydown="if(event.key==='Enter')salesJobSave()"></div>
+      <div class="fld"><label>Unit #</label><input type="text" id="sjf-lb" placeholder="76"></div>
+      <div class="fld"><label>Event Date</label><input type="date" id="sjf-event"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-save" onclick="salesJobSave()">Save</button>
+      <button class="btn-cancel" onclick="salesJobModalClose()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- OPS ADD/EDIT JOB MODAL -->
 <div class="modal-overlay" id="job-modal">
   <div class="modal">
     <h2 id="job-modal-title">Add Job</h2>
@@ -229,30 +296,6 @@ tbody tr.job-closed .cell.site { background: #0a1520; }
       <div class="fld"><label>Planned Ship Date</label><input type="date" id="jf-out"></div>
       <div class="fld"><label>Tech</label><input type="text" id="jf-tech" placeholder="Isaac"></div>
       <div class="fld full"><label>Notes</label><input type="text" id="jf-notes" placeholder="Strapped, badging, etc."></div>
-
-      <hr class="modal-divider">
-      <div class="modal-section-lbl">Outbound Carrier</div>
-      <div class="fld full">
-        <select id="jf-ins">
-          <option value="needs-carrier">Needs Carrier</option>
-          <option value="KBE">KBE — Kettlebrook</option>
-          <option value="ABL">ABL — All Bound Logistics</option>
-          <option value="na">N/A</option>
-        </select>
-      </div>
-      <div class="fld full" id="jf-indate-wrap"><label>Outbound Pickup Date</label><input type="date" id="jf-indate"></div>
-
-      <hr class="modal-divider">
-      <div class="modal-section-lbl">Return Carrier</div>
-      <div class="fld full">
-        <select id="jf-ret">
-          <option value="needs-carrier">Needs Carrier</option>
-          <option value="KBE">KBE — Kettlebrook</option>
-          <option value="ABL">ABL — All Bound Logistics</option>
-          <option value="na">N/A</option>
-        </select>
-      </div>
-      <div class="fld full" id="jf-retdate-wrap"><label>Return Pickup Date</label><input type="date" id="jf-retdate"></div>
     </div>
     <div class="modal-actions">
       <button class="btn-save" onclick="jobSave()">Save</button>
@@ -282,17 +325,45 @@ tbody tr.job-closed .cell.site { background: #0a1520; }
   </div>
 </div>
 
+<!-- CLOSE OUT CONFIRMATION MODAL -->
+<div class="modal-overlay" id="closeout-modal">
+  <div class="modal" style="max-width:360px;text-align:center">
+    <h2 style="margin-bottom:8px">&#x2713; All Items Returned</h2>
+    <p id="closeout-modal-msg" style="font-size:13px;color:#4a6278;margin-bottom:24px"></p>
+    <div class="modal-actions">
+      <button class="btn-save" onclick="closeoutConfirm()">Close Out</button>
+      <button class="btn-cancel" onclick="closeoutKeepOpen()">Keep Open</button>
+    </div>
+  </div>
+</div>
+
+<!-- PIN MODAL -->
+<div class="modal-overlay" id="pin-modal">
+  <div class="modal" style="max-width:320px;text-align:center">
+    <h2 style="margin-bottom:8px">&#x1F512; Checklist Locked</h2>
+    <p style="font-size:13px;color:#4a6278;margin-bottom:20px">Enter PIN to unlock and modify</p>
+    <input type="password" id="pin-input" maxlength="4" placeholder="&#x25CF;&#x25CF;&#x25CF;&#x25CF;"
+      style="width:120px;background:#111d28;border:2px solid #1e2d3d;border-radius:8px;color:#e8edf2;font-size:24px;font-family:inherit;padding:12px;text-align:center;outline:none;letter-spacing:8px;display:block;margin:0 auto 8px"
+      onkeydown="if(event.key==='Enter')pinConfirm()">
+    <p id="pin-error" style="font-size:12px;color:#ff4444;height:16px;margin-bottom:12px"></p>
+    <div class="modal-actions">
+      <button class="btn-save" onclick="pinConfirm()">Unlock</button>
+      <button class="btn-cancel" onclick="pinCancel()">Cancel</button>
+    </div>
+  </div>
+</div>
+
 <!-- SHIPPING CHECKLIST MODAL -->
 <div class="modal-overlay" id="ship-modal">
   <div class="modal" style="max-width:640px">
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
       <div>
-        <h2>Kewazo Shipping Checklist</h2>
+        <h2 id="ship-modal-title">Kewazo Shipping Checklist</h2>
         <div id="ship-meta" style="font-size:12px;color:#4a6278;margin-top:4px"></div>
       </div>
       <button class="icon-btn" style="font-size:18px" onclick="shipClose()">&#x2715;</button>
     </div>
-    <div id="ship-complete-banner" class="complete-banner">\u2705 All Items Returned to Shop \u2014 Checklist Complete!</div>
+    <div id="ship-complete-banner" class="complete-banner">&#x2705; All Items Returned to Shop &#x2014; Checklist Complete!</div>
     <div id="ship-progress" style="margin:12px 0"></div>
     <div id="ship-banner" style="display:none;border-radius:6px;padding:9px 14px;font-size:12px;margin-bottom:12px"></div>
     <div style="overflow-x:auto;border-radius:8px;border:1px solid #1e2d3d;margin-bottom:14px">
@@ -323,30 +394,30 @@ function fmtShort(d) { return d.toLocaleDateString('en-US',{weekday:'short',mont
 function fmtLong(d)  { return d.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}); }
 document.getElementById('hdr-date').textContent = fmtShort(today);
 
-// -- Storage
-var JOB_KEY  = 'kewazo_jobboard_v2';
-var TASK_KEY = 'kewazo_checklist_v4';
-var PACK_KEY = 'kewazo_packing_v1';
+// -- Storage keys
+var JOB_KEY   = 'kewazo_jobboard_v2';
+var TASK_KEY  = 'kewazo_checklist_v4';
+var PACK_KEY  = 'kewazo_packing_v1';
+var VIEW_KEY  = 'kewazo_view_pref';
+var UNLOCK_KEY= 'kewazo_checklist_unlocked';
 
 var SCRIPT_URL = 'https://script.google.com/a/macros/kewazo.com/s/AKfycbw31IFZu3Qg-WaZFjqn_ToMI61X8OoMYIdg6zK0AxEs1rNZp9Q1XE4ZMmOOXRlCWB20uQ/exec';
 var _cache = {};
 var _dirty = {};
 var _syncTimer = null;
 
-// Local cache read/write (instant UI updates)
 function ls(k)   { try { return _cache[k] !== undefined ? _cache[k] : JSON.parse(localStorage.getItem(k)||'null'); } catch(e) { return null; } }
 function ss(k,v) { _cache[k] = v; localStorage.setItem(k, JSON.stringify(v)); schedulePush(k, v); }
 
-// Show sync indicator in header
 function showSync(state) {
   var el = document.getElementById('sync-indicator');
   if (!el) return;
   if (state === 'saving') { el.textContent = '\u25CC Saving...'; el.style.color = '#f5a623'; }
   else if (state === 'saved') { el.textContent = '\u2713 Synced'; el.style.color = '#00c896'; }
   else if (state === 'error') { el.textContent = '\u26A0 Offline'; el.style.color = '#ff6b6b'; }
+  else { el.textContent = ''; }
 }
 
-// Push to Google Sheets (debounced 1.5s)
 function schedulePush(k, v) {
   _dirty[k] = v;
   if (_syncTimer) clearTimeout(_syncTimer);
@@ -360,29 +431,23 @@ function pushDirty() {
   var batch = {};
   keys.forEach(function(k) { batch[k] = JSON.stringify(_dirty[k]); });
   _dirty = {};
-
-  // Use hidden iframe + form POST to reliably reach Apps Script (bypasses fetch/CORS issues entirely)
   var iframeName = 'pushFrame_' + Date.now();
   var iframe = document.createElement('iframe');
   iframe.name = iframeName;
   iframe.style.display = 'none';
   document.body.appendChild(iframe);
-
   var form = document.createElement('form');
   form.action = SCRIPT_URL;
   form.method = 'POST';
   form.target = iframeName;
   form.style.display = 'none';
-
   var input = document.createElement('input');
   input.type = 'hidden';
   input.name = 'payload';
   input.value = JSON.stringify({action:'setAll', data:batch});
   form.appendChild(input);
-
   document.body.appendChild(form);
   form.submit();
-
   setTimeout(function() {
     showSync('saved');
     setTimeout(function(){ showSync(''); }, 3000);
@@ -391,7 +456,6 @@ function pushDirty() {
   }, 1200);
 }
 
-// Pull all keys from Google Sheets on load - JSONP to bypass CORS on GET
 function pullAll(cb) {
   showSync('saving');
   var callbackName = 'jsonpCb_' + Date.now();
@@ -400,23 +464,18 @@ function pullAll(cb) {
     if (cb) cb();
     cleanup();
   }, 8000);
-
   function cleanup() {
     clearTimeout(timeoutId);
     delete window[callbackName];
     var s = document.getElementById(callbackName);
     if (s) s.remove();
   }
-
   window[callbackName] = function(data) {
     clearTimeout(timeoutId);
     if (data && data.values) {
       data.values.forEach(function(row) {
         if (row.key && row.value) {
-          try {
-            _cache[row.key] = JSON.parse(row.value);
-            localStorage.setItem(row.key, row.value);
-          } catch(e) {}
+          try { _cache[row.key] = JSON.parse(row.value); localStorage.setItem(row.key, row.value); } catch(e) {}
         }
       });
     }
@@ -425,33 +484,93 @@ function pullAll(cb) {
     if (cb) cb();
     cleanup();
   };
-
   var script = document.createElement('script');
   script.id = callbackName;
   script.src = SCRIPT_URL + '?action=getAll&callback=' + callbackName;
-  script.onerror = function() {
-    showSync('error');
-    if (cb) cb();
-    cleanup();
-  };
+  script.onerror = function() { showSync('error'); if (cb) cb(); cleanup(); };
   document.body.appendChild(script);
+}
+
+// ══════════════════════════════════════════════════
+// VIEW MANAGEMENT
+// ══════════════════════════════════════════════════
+var _opsHeld = null;
+
+function setView(v) {
+  localStorage.setItem(VIEW_KEY, v);
+  applyView(v);
+}
+
+function applyView(v) {
+  var isSales = (v === 'sales');
+  document.body.classList.toggle('sales-view', isSales);
+  document.getElementById('btn-sales').classList.toggle('active', isSales);
+  document.getElementById('btn-ops').classList.toggle('active', !isSales);
+}
+
+function initView() {
+  var saved = localStorage.getItem(VIEW_KEY) || 'sales';
+  applyView(saved);
+  if (localStorage.getItem(UNLOCK_KEY) === '1') {
+    document.body.classList.add('checklist-unlocked');
+  }
+  var lbl = document.getElementById('ops-label');
+  if (lbl) {
+    function startHold() {
+      _opsHeld = setTimeout(function() {
+        var u = document.body.classList.toggle('checklist-unlocked');
+        localStorage.setItem(UNLOCK_KEY, u ? '1' : '0');
+      }, 2000);
+    }
+    function endHold() { clearTimeout(_opsHeld); }
+    lbl.addEventListener('mousedown', startHold);
+    lbl.addEventListener('mouseup', endHold);
+    lbl.addEventListener('mouseleave', endHold);
+    lbl.addEventListener('touchstart', startHold, {passive:true});
+    lbl.addEventListener('touchend', endHold);
+  }
+}
+
+// ══════════════════════════════════════════════════
+// JOB STATUS
+// ══════════════════════════════════════════════════
+function getJobStatus(j) {
+  if (j.closed || j.returned) return 'complete';
+  if (j.ret === 'KBE' || j.ret === 'ABL') return 'retbooked';
+  if (j.shipped) return 'onsite';
+  if (j.ins === 'KBE' || j.ins === 'ABL') return 'scheduled';
+  return 'upcoming';
+}
+
+var STATUS_MAP = {
+  upcoming:  {label:'Upcoming',         cls:'st-upcoming'},
+  scheduled: {label:'Scheduled',        cls:'st-scheduled'},
+  onsite:    {label:'Liftbot On Site',  cls:'st-onsite'},
+  retbooked: {label:'Return Booked',    cls:'st-retbooked'},
+  complete:  {label:'Complete',         cls:'st-complete'}
+};
+
+function makeStatusBadge(j) {
+  var st = STATUS_MAP[getJobStatus(j)];
+  return '<span class="status-badge ' + st.cls + '">' + st.label + '</span>';
 }
 
 // ══════════════════════════════════════════════════
 // JOB BOARD
 // ══════════════════════════════════════════════════
 var DEFAULT_JOBS = [
-  {id:1, site:'Exxon Baytown',      lb:'27', out:'6/11', event:'6/11', ins:'needs-carrier', ind:'',    ret:'needs-carrier', retd:'', tech:'Marcos', notes:'LB62 - Ship',    closed:false, booked:true,  shipped:true,  returned:false},
-  {id:2, site:'Marathon Garyville', lb:'61', out:'6/16', event:'6/16', ins:'needs-carrier', ind:'',    ret:'needs-carrier', retd:'', tech:'Marcos', notes:'',               closed:false, booked:true,  shipped:true,  returned:false},
-  {id:3, site:'DOW MiOps',          lb:'76', out:'6/19', event:'6/23', ins:'KBE',           ind:'6/25',ret:'needs-carrier', retd:'', tech:'Isaac',  notes:'',               closed:false, booked:true,  shipped:true,  returned:false},
-  {id:4, site:'Valero McKee',        lb:'21', out:'6/22', event:'6/24', ins:'needs-carrier', ind:'',    ret:'needs-carrier', retd:'', tech:'Heitor', notes:'Strapped',       closed:false, booked:true,  shipped:true,  returned:false},
-  {id:5, site:'DOW Tx City',         lb:'74', out:'6/24', event:'6/25', ins:'needs-carrier', ind:'',    ret:'needs-carrier', retd:'', tech:'Kenny',  notes:'Strapped',       closed:false, booked:true,  shipped:true,  returned:false},
-  {id:6, site:'Space X',             lb:'53', out:'',     event:'',     ins:'needs-carrier', ind:'',    ret:'needs-carrier', retd:'', tech:'',       notes:'New project tbd',closed:false, booked:false, shipped:false, returned:false},
-  {id:7, site:'Sarnia',              lb:'48', out:'',     event:'',     ins:'needs-carrier', ind:'',    ret:'needs-carrier', retd:'', tech:'',       notes:'Noatum handling',closed:false, booked:false, shipped:false, returned:false},
-  {id:8, site:'Total Energy',        lb:'',   out:'',     event:'7/6',  ins:'needs-carrier', ind:'',    ret:'needs-carrier', retd:'', tech:'',       notes:'',              closed:false, booked:false, shipped:false, returned:false},
-  {id:9, site:'Motiva',              lb:'',   out:'',     event:'7/15', ins:'na',            ind:'',    ret:'na',            retd:'', tech:'',       notes:'Badging',        closed:false, booked:false, shipped:false, returned:false},
-  {id:10,site:'Marathon GBR',        lb:'21', out:'6/29', event:'6/29', ins:'KBE',           ind:'6/26',ret:'needs-carrier', retd:'', tech:'Marcos', notes:'',              closed:false, booked:true,  shipped:false, returned:false},
-  {id:11,site:'P66 Demo',            lb:'76', out:'6/30', event:'6/30', ins:'KBE',           ind:'6/30',ret:'needs-carrier', retd:'', tech:'Marcos', notes:'',              closed:false, booked:true,  shipped:false, returned:false}
+  {id:1, site:'Exxon Baytown',      lb:'27', out:'6/11', event:'6/11', ins:'KBE',          ind:'',    ret:'needs-carrier', retd:'6/30', tech:'Marcos', notes:'',            closed:false, booked:true,  shipped:true,  returned:false, closeDate:''},
+  {id:2, site:'Marathon Garyville', lb:'61', out:'6/16', event:'6/16', ins:'KBE',          ind:'',    ret:'needs-carrier', retd:'',    tech:'Marcos', notes:'',            closed:false, booked:true,  shipped:true,  returned:false, closeDate:''},
+  {id:3, site:'DOW MiOps',          lb:'76', out:'6/19', event:'6/23', ins:'KBE',          ind:'6/25',ret:'KBE',           retd:'6/25',tech:'Isaac',  notes:'',            closed:true,  booked:true,  shipped:true,  returned:true,  closeDate:'2026-06-25T12:00:00.000Z'},
+  {id:4, site:'Valero McKee',        lb:'21', out:'6/22', event:'6/24', ins:'ABL',          ind:'',    ret:'ABL',           retd:'6/29',tech:'Heitor', notes:'Strapped',    closed:true,  booked:true,  shipped:true,  returned:true,  closeDate:'2026-06-29T12:00:00.000Z'},
+  {id:5, site:'DOW Tx City',         lb:'74', out:'6/24', event:'6/25', ins:'KBE',          ind:'',    ret:'KBE',           retd:'',    tech:'Kenny',  notes:'Strapped',    closed:true,  booked:true,  shipped:true,  returned:true,  closeDate:'2026-06-26T12:00:00.000Z'},
+  {id:6, site:'Space X',             lb:'53', out:'',     event:'',     ins:'ABL',          ind:'',    ret:'needs-carrier', retd:'',    tech:'Marcos', notes:'New project tbd',closed:false,booked:false,shipped:true,  returned:false, closeDate:''},
+  {id:7, site:'Sarnia',              lb:'48', out:'',     event:'',     ins:'na',           ind:'',    ret:'na',            retd:'',    tech:'',       notes:'Noatum handling',closed:false,booked:false,shipped:false, returned:false, closeDate:''},
+  {id:8, site:'Total Energy',        lb:'21', out:'7/2',  event:'7/6',  ins:'KBE',          ind:'7/2', ret:'needs-carrier', retd:'',    tech:'Marcos', notes:'',            closed:false, booked:false, shipped:false, returned:false, closeDate:''},
+  {id:9, site:'Motiva',              lb:'',   out:'',     event:'7/15', ins:'na',           ind:'',    ret:'na',            retd:'',    tech:'',       notes:'Badging',     closed:false, booked:false, shipped:false, returned:false, closeDate:''},
+  {id:10,site:'Marathon GBR',        lb:'21', out:'6/29', event:'6/29', ins:'KBE',          ind:'6/26',ret:'needs-carrier', retd:'',    tech:'Marcos', notes:'',            closed:false, booked:true,  shipped:true,  returned:false, closeDate:''},
+  {id:11,site:'P66 Demo',            lb:'76', out:'6/30', event:'6/30', ins:'KBE',          ind:'6/30',ret:'KBE',           retd:'6/30',tech:'Marcos', notes:'',            closed:false, booked:true,  shipped:true,  returned:false, closeDate:''},
+  {id:12,site:'Downstream USA',      lb:'',   out:'',     event:'7/15', ins:'needs-carrier',ind:'',    ret:'needs-carrier', retd:'',    tech:'',       notes:'Conference',  closed:false, booked:false, shipped:false, returned:false, closeDate:''}
 ];
 
 function getJobs()  { return ls(JOB_KEY) || DEFAULT_JOBS; }
@@ -468,178 +587,393 @@ function toggleCompletedJobs() {
   if (l) l.classList.toggle('open', compJobsOpen);
 }
 
-function jobToggleStage(id, field) {
+function parseEventDate(str) {
+  if (!str || str === '\u2713') return Infinity;
+  var parts = str.split('/');
+  if (parts.length < 2) return Infinity;
+  var mo = parseInt(parts[0], 10);
+  var dy = parseInt(parts[1], 10);
+  if (isNaN(mo) || isNaN(dy)) return Infinity;
+  return mo * 100 + dy;
+}
+
+function sortActiveJobs(jobs) {
+  return jobs.slice().sort(function(a, b) { return parseEventDate(a.event) - parseEventDate(b.event); });
+}
+
+function sortClosedJobs(jobs) {
+  return jobs.slice().sort(function(a, b) {
+    var ad = a.closeDate ? new Date(a.closeDate).getTime() : 0;
+    var bd = b.closeDate ? new Date(b.closeDate).getTime() : 0;
+    return bd - ad;
+  });
+}
+
+// Check if a unit number appears on another active job
+function isDuplicateUnit(j, allJobs) {
+  if (!j.lb) return false;
+  var activeWithSameUnit = allJobs.filter(function(x) {
+    return !x.closed && x.id !== j.id && x.lb && x.lb === j.lb;
+  });
+  return activeWithSameUnit.length > 0;
+}
+
+// Check if shipped but outbound checklist not locked
+function hasOutboundWarning(j) {
+  if (!j.shipped) return false;
+  var pd = getPackData();
+  var jd = pd[j.id] || {};
+  return !isOutboundLocked(jd);
+}
+
+// Check if returned but return checklist not complete
+function hasReturnWarning(j) {
+  if (!j.returned) return false;
+  var pd = getPackData();
+  var jd = pd[j.id] || {};
+  return !isAllReturned(jd);
+}
+
+function jobSetField(id, field, value) {
   var jobs = getJobs();
   var job  = jobs.find(function(x){ return x.id===id; });
   if (!job) return;
-  job[field] = !job[field];
-  setJobs(jobs); renderJobs(); renderShipLog();
+  job[field] = value;
+
+  // When shipped is checked, auto-open outbound checklist
+  if (field === 'shipped' && value === true) {
+    setJobs(jobs); renderAll();
+    setTimeout(function(){ shipOpen(id, 'outbound'); }, 300);
+    return;
+  }
+
+  // When returned is checked, auto-open return checklist and eventually close
+  if (field === 'returned' && value === true) {
+    setJobs(jobs); renderAll();
+    setTimeout(function(){ shipOpen(id, 'return'); }, 300);
+    return;
+  }
+
+  // When returned is unchecked, reopen job
+  if (field === 'returned' && value === false) {
+    job.closed    = false;
+    job.closeDate = '';
+  }
+
+  setJobs(jobs); renderAll();
 }
+
+var _closeoutJobId = null;
+
+function showCloseoutModal(jobId) {
+  _closeoutJobId = jobId;
+  var job = getJobs().find(function(x){ return x.id===jobId; });
+  var msg = document.getElementById('closeout-modal-msg');
+  if (msg && job) msg.textContent = 'Close out ' + job.site + '? This will move it to your completed jobs archive.';
+  document.getElementById('closeout-modal').classList.add('open');
+}
+
+function closeoutConfirm() {
+  document.getElementById('closeout-modal').classList.remove('open');
+  if (_closeoutJobId !== null) {
+    jobCloseOut(_closeoutJobId);
+    _closeoutJobId = null;
+  }
+}
+
+function closeoutKeepOpen() {
+  document.getElementById('closeout-modal').classList.remove('open');
+  _closeoutJobId = null;
+}
+
+document.getElementById('closeout-modal').addEventListener('click', function(e){ if(e.target===this) closeoutKeepOpen(); });
 
 function jobCloseOut(id) {
   var jobs = getJobs();
   var job  = jobs.find(function(x){ return x.id===id; });
   if (!job) return;
-  job.closed = true;
-  setJobs(jobs); renderJobs(); renderShipLog();
+  job.closed    = true;
+  job.closeDate = new Date().toISOString();
+  setJobs(jobs); renderAll();
 }
 
 function jobReopen(id) {
   var jobs = getJobs();
   var job  = jobs.find(function(x){ return x.id===id; });
   if (!job) return;
-  job.closed = false;
-  setJobs(jobs); renderJobs(); renderShipLog();
+  job.closed    = false;
+  job.closeDate = '';
+  setJobs(jobs); renderAll();
 }
 
-function renderCarrierCell(ins, ind) {
-  if (ins === 'na') return '<span class="badge badge-none">\u2014</span>';
-  if (ins === 'needs-carrier') return '<div class="carrier-needs">\u26A0 Needs Carrier</div>';
-  return '<div class="carrier-booked"><span class="carrier-name">' + ins + '</span>' + (ind ? '<span class="carrier-date">\uD83D\uDCC5 ' + ind + '</span>' : '') + '</div>';
+function toInputDate(str) {
+  if (!str) return '';
+  if (str.match(/^\d{4}-\d{2}-\d{2}$/)) return str;
+  var parts = str.split('/');
+  if (parts.length >= 2) {
+    var yr = parts[2] ? (parts[2].length===2 ? '20'+parts[2] : parts[2]) : new Date().getFullYear();
+    return yr + '-' + parts[0].padStart(2,'0') + '-' + parts[1].padStart(2,'0');
+  }
+  return '';
 }
 
-function makeShipStatusCell(j, isCompleted) {
-  var td = document.createElement('td');
-  td.className = 'cell';
-  td.style.minWidth = '200px';
+function fromInputDate(str) {
+  if (!str) return '';
+  var parts = str.split('-');
+  if (parts.length === 3) return parseInt(parts[1]) + '/' + parseInt(parts[2]);
+  return str;
+}
+
+function makeInlineShipCtrl(j, allJobs) {
+  var outWarn = hasOutboundWarning(j);
+  var retWarn = hasReturnWarning(j);
+  var wrap = document.createElement('div');
+  wrap.className = 'ship-ctrl';
+
+  // STAGE 1: Outbound carrier dropdown (always shown)
+  var outRow = document.createElement('div');
+  outRow.className = 'ship-ctrl-row';
+  var outSel = document.createElement('select');
+  outSel.className = 'ship-select' + ((j.ins==='KBE'||j.ins==='ABL')?' booked':'');
+  outSel.innerHTML = '<option value="needs-carrier">Needs Carrier</option><option value="KBE">KBE</option><option value="ABL">ABL</option><option value="na">N/A</option>';
+  outSel.value = j.ins || 'needs-carrier';
+  outSel.onchange = (function(jid){ return function() {
+    var jobs2=getJobs(); var j2=jobs2.find(function(x){return x.id===jid;});
+    if(j2){j2.ins=this.value; if(this.value!=='KBE'&&this.value!=='ABL'){j2.ind=''; j2.shipped=false;} setJobs(jobs2); renderAll();}
+  }; })(j.id);
+  outRow.appendChild(outSel);
+
+  // STAGE 2: Date picker (only when carrier selected)
+  if (j.ins === 'KBE' || j.ins === 'ABL') {
+    var outDate = document.createElement('input');
+    outDate.type = 'date';
+    outDate.className = 'ship-date';
+    outDate.value = toInputDate(j.ind);
+    outDate.onchange = (function(jid){ return function() {
+      var jobs2=getJobs(); var j2=jobs2.find(function(x){return x.id===jid;});
+      if(j2){j2.ind=fromInputDate(this.value); setJobs(jobs2); renderAll();}
+    }; })(j.id);
+    outRow.appendChild(outDate);
+  }
+  wrap.appendChild(outRow);
+
+  // STAGE 2+: Shipped checkbox or shipped confirmation
+  if (j.ins === 'KBE' || j.ins === 'ABL') {
+    if (!j.shipped) {
+      var shipRow = document.createElement('div');
+      shipRow.className = 'ship-chk-row';
+      shipRow.style.marginTop = '5px';
+      shipRow.onclick = (function(jid){ return function(e){ e.stopPropagation(); jobSetField(jid, 'shipped', true); }; })(j.id);
+      shipRow.innerHTML = '<div class="ship-chk-box"></div><span class="ship-chk-lbl" style="color:#4a6278">Mark Shipped</span>';
+      wrap.appendChild(shipRow);
+    } else {
+      // Green shipped badge + optional !! that opens checklist
+      var shippedRow = document.createElement('div');
+      shippedRow.className = 'ship-ctrl-row';
+      shippedRow.style.marginTop = '5px';
+      var shippedBadge = document.createElement('span');
+      shippedBadge.style.cssText = 'font-size:11px;font-weight:700;color:#00c896;letter-spacing:0.04em;text-transform:uppercase';
+      shippedBadge.textContent = '✓ Shipped';
+      shippedBadge.style.cursor = 'pointer';
+      shippedBadge.title = 'Click to unmark shipped';
+      shippedBadge.onclick = (function(jid){
+        return function(e){
+          e.stopPropagation();
+          var pd2=getPackData(); var jd2=pd2[jid]||{};
+          if (isOutboundLocked(jd2)) {
+            requirePin(function(){ jobSetField(jid, 'shipped', false); });
+          } else {
+            jobSetField(jid, 'shipped', false);
+          }
+        };
+      })(j.id);
+      shippedRow.appendChild(shippedBadge);
+      if (outWarn) {
+        var warnBtn = document.createElement('span');
+        warnBtn.className = 'warn-badge';
+        warnBtn.style.cursor = 'pointer';
+        warnBtn.title = 'Outbound checklist incomplete';
+        warnBtn.textContent = '!!';
+        warnBtn.onclick = (function(jid){ return function(e){ e.stopPropagation(); shipOpen(jid, 'outbound'); }; })(j.id);
+        shippedRow.appendChild(warnBtn);
+      }
+      wrap.appendChild(shippedRow);
+
+      // STAGE 3+: Return section (only after shipped)
+      var divEl = document.createElement('div');
+      divEl.className = 'ship-divider';
+      divEl.style.marginTop = '6px';
+      wrap.appendChild(divEl);
+
+      var retRow = document.createElement('div');
+      retRow.className = 'ship-ctrl-row';
+      var retSel = document.createElement('select');
+      retSel.className = 'ship-select' + ((j.ret==='KBE'||j.ret==='ABL')?' booked':'');
+      retSel.innerHTML = '<option value="needs-carrier">Return Carrier</option><option value="KBE">KBE</option><option value="ABL">ABL</option><option value="na">N/A</option>';
+      retSel.value = j.ret || 'needs-carrier';
+      retSel.onchange = (function(jid){ return function() {
+        var jobs2=getJobs(); var j2=jobs2.find(function(x){return x.id===jid;});
+        if(j2){j2.ret=this.value; if(this.value!=='KBE'&&this.value!=='ABL'){j2.retd=''; j2.returned=false;} setJobs(jobs2); renderAll();}
+      }; })(j.id);
+      retRow.appendChild(retSel);
+
+      if (j.ret === 'KBE' || j.ret === 'ABL') {
+        var retDate = document.createElement('input');
+        retDate.type = 'date';
+        retDate.className = 'ship-date';
+        retDate.value = toInputDate(j.retd);
+        retDate.onchange = (function(jid){ return function() {
+          var jobs2=getJobs(); var j2=jobs2.find(function(x){return x.id===jid;});
+          if(j2){j2.retd=fromInputDate(this.value); setJobs(jobs2); renderAll();}
+        }; })(j.id);
+        retRow.appendChild(retDate);
+      }
+      wrap.appendChild(retRow);
+
+      if (j.ret === 'KBE' || j.ret === 'ABL') {
+        if (!j.returned) {
+          var retChkRow = document.createElement('div');
+          retChkRow.className = 'ship-chk-row';
+          retChkRow.style.marginTop = '5px';
+          retChkRow.onclick = (function(jid){ return function(e){ e.stopPropagation(); jobSetField(jid, 'returned', true); }; })(j.id);
+          retChkRow.innerHTML = '<div class="ship-chk-box"></div><span class="ship-chk-lbl" style="color:#4a6278">Mark Returned</span>';
+          wrap.appendChild(retChkRow);
+        } else {
+          var returnedRow = document.createElement('div');
+          returnedRow.className = 'ship-ctrl-row';
+          returnedRow.style.marginTop = '5px';
+          var returnedBadge = document.createElement('span');
+          returnedBadge.style.cssText = 'font-size:11px;font-weight:700;color:#2e75b6;letter-spacing:0.04em;text-transform:uppercase';
+          returnedBadge.textContent = '✓ Returned';
+          returnedBadge.style.cursor = 'pointer';
+          returnedBadge.title = 'Click to unmark returned';
+          returnedBadge.onclick = (function(jid){
+            return function(e){
+              e.stopPropagation();
+              var pd2=getPackData(); var jd2=pd2[jid]||{};
+              if (isAllReturned(jd2)) {
+                requirePin(function(){ jobSetField(jid, 'returned', false); });
+              } else {
+                jobSetField(jid, 'returned', false);
+              }
+            };
+          })(j.id);
+          returnedRow.appendChild(returnedBadge);
+          if (retWarn) {
+            var retWarnBtn = document.createElement('span');
+            retWarnBtn.className = 'warn-badge';
+            retWarnBtn.style.cursor = 'pointer';
+            retWarnBtn.title = 'Return checklist incomplete';
+            retWarnBtn.textContent = '!!';
+            retWarnBtn.onclick = (function(jid){ return function(e){ e.stopPropagation(); shipOpen(jid, 'return'); }; })(j.id);
+            returnedRow.appendChild(retWarnBtn);
+          }
+          wrap.appendChild(returnedRow);
+        }
+      }
+    }
+  }
+
+  return wrap;
+}
+
+function makeJobRow(j, isCompleted, allJobs) {
+  var tr   = document.createElement('tr');
+  if (isCompleted) tr.className = 'job-closed';
+
+  var isDup = !isCompleted && isDuplicateUnit(j, allJobs);
+  var ev    = j.event ? '<span class="badge badge-pending">' + j.event + '</span>' : '<span class="badge badge-none">\u2014</span>';
+  var lbHtml = j.lb
+    ? '<span class="lb-num">' + j.lb + '</span>' + (isDup ? ' <span title="Unit on multiple active jobs" style="cursor:help">\u267B\uFE0F</span>' : '')
+    : '<span style="color:#2a3d52">\u2014</span>';
+
+  var closedInfo = '';
+  if (isCompleted && j.closeDate) {
+    var cd = new Date(j.closeDate);
+    closedInfo = '<div style="font-size:10px;color:#2a3d52;margin-top:4px">Closed ' + cd.toLocaleDateString('en-US',{month:'short',day:'numeric'}) + '</div>';
+  }
+
+  var pd2 = getPackData();
+  var jd2 = pd2[j.id] || {};
+  var returnChecklistComplete = isAllReturned(jd2);
+  var isNAJob = (j.ins === 'na' && j.ret === 'na');
+  var showCloseOut = returnChecklistComplete || isNAJob;
+
+  var actionCell = isCompleted
+    ? '<button class="icon-btn" onclick="jobReopen(' + j.id + ')" style="font-size:12px;color:#4a6278">\u21A9 Reopen</button>'
+    : '<button class="icon-btn" onclick="jobEdit(' + j.id + ')" title="Edit details">\u270F\uFE0F</button>' +
+      '<button class="icon-btn" onclick="shipOpen(' + j.id + ',\'outbound\')" title="Shipping Checklist">\uD83D\uDCCB</button>' +
+      (showCloseOut ? '<button class="closeout-btn" onclick="jobCloseOut(' + j.id + ')">\u2713 Close Out</button>' : '');
+
+  var shipCell = document.createElement('td');
+  shipCell.className = 'cell';
+  shipCell.style.minWidth = '200px';
 
   if (isCompleted) {
     var txt = '';
-    if (j.ins && j.ins !== 'needs-carrier' && j.ins !== 'na') txt += '<div style="font-size:11px;color:#00c896;font-weight:700">\u2192 ' + j.ins + (j.ind?' \u00B7 '+j.ind:'') + (j.shipped?' \u2713':'') + '</div>';
-    if (j.ret && j.ret !== 'needs-carrier' && j.ret !== 'na') txt += '<div style="font-size:11px;color:#2e75b6;font-weight:700;margin-top:4px">\u2190 ' + j.ret + (j.retd?' \u00B7 '+j.retd:'') + (j.returned?' \u2713':'') + '</div>';
-    td.innerHTML = txt || '<span class="badge badge-none">\u2014</span>';
-    return td;
-  }
-
-  // OUTBOUND section
-  var outDiv = document.createElement('div');
-  outDiv.style.marginBottom = '8px';
-
-  var outLabel = document.createElement('div');
-  outLabel.style.cssText = 'font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#4a6278;margin-bottom:4px';
-  outLabel.textContent = 'OUTBOUND';
-  outDiv.appendChild(outLabel);
-
-  if (j.ins === 'needs-carrier') {
-    var outNeeds = document.createElement('div');
-    outNeeds.className = 'carrier-needs';
-    outNeeds.textContent = '\u26A0 Needs Carrier';
-    outDiv.appendChild(outNeeds);
-  } else if (j.ins === 'na') {
-    var outNA = document.createElement('div');
-    outNA.style.cssText = 'font-size:11px;color:#2a3d52';
-    outNA.textContent = 'N/A';
-    outDiv.appendChild(outNA);
+    if (j.ins && j.ins!=='needs-carrier'&&j.ins!=='na') txt += '<div style="font-size:11px;color:#00c896;font-weight:700">\u2192 '+j.ins+(j.ind?' \u00B7 '+j.ind:'')+(j.shipped?' \u2713':'')+'</div>';
+    if (j.ret && j.ret!=='needs-carrier'&&j.ret!=='na') txt += '<div style="font-size:11px;color:#2e75b6;font-weight:700;margin-top:4px">\u2190 '+j.ret+(j.retd?' \u00B7 '+j.retd:'')+(j.returned?' \u2713':'')+'</div>';
+    shipCell.innerHTML = (txt || '<span class="badge badge-none">\u2014</span>') + closedInfo;
   } else {
-    var outBooked = document.createElement('div');
-    outBooked.className = 'carrier-booked';
-    outBooked.innerHTML = '<span class="carrier-name">' + j.ins + '</span>' + (j.ind ? '<span class="carrier-date">\uD83D\uDCC5 ' + j.ind + '</span>' : '');
-    outDiv.appendChild(outBooked);
-
-    var outChkRow = document.createElement('div');
-    outChkRow.className = 'stage-row' + (j.shipped ? ' active-green' : '');
-    outChkRow.style.marginTop = '5px';
-    outChkRow.onclick = (function(jid){ return function(e){ e.stopPropagation(); jobToggleStage(jid,'shipped'); }; })(j.id);
-    outChkRow.innerHTML =
-      '<div class="stage-box' + (j.shipped?' checked-green':'') + '">' +
-      (j.shipped?'<svg width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3 5.5L8 1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>':'') +
-      '</div><span class="stage-label">Shipped</span>';
-    outDiv.appendChild(outChkRow);
+    shipCell.appendChild(makeInlineShipCtrl(j, allJobs));
   }
-  td.appendChild(outDiv);
-
-  // Divider
-  var div = document.createElement('div');
-  div.style.cssText = 'height:1px;background:#1e2d3d;margin:4px 0 8px';
-  td.appendChild(div);
-
-  // RETURN section
-  var retDiv = document.createElement('div');
-
-  var retLabel = document.createElement('div');
-  retLabel.style.cssText = 'font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#4a6278;margin-bottom:4px';
-  retLabel.textContent = 'RETURN';
-  retDiv.appendChild(retLabel);
-
-  var retIns = j.ret || 'needs-carrier';
-  if (retIns === 'needs-carrier') {
-    var retNeeds = document.createElement('div');
-    retNeeds.className = 'carrier-needs';
-    retNeeds.textContent = '\u26A0 Needs Carrier';
-    retDiv.appendChild(retNeeds);
-  } else if (retIns === 'na') {
-    var retNA = document.createElement('div');
-    retNA.style.cssText = 'font-size:11px;color:#2a3d52';
-    retNA.textContent = 'N/A';
-    retDiv.appendChild(retNA);
-  } else {
-    var retBooked = document.createElement('div');
-    retBooked.className = 'carrier-booked';
-    retBooked.innerHTML = '<span class="carrier-name" style="color:#2e75b6">' + retIns + '</span>' + (j.retd ? '<span class="carrier-date">\uD83D\uDCC5 ' + j.retd + '</span>' : '');
-    retDiv.appendChild(retBooked);
-
-    var retChkRow = document.createElement('div');
-    retChkRow.className = 'stage-row' + (j.returned ? ' active-blue' : '');
-    retChkRow.style.marginTop = '5px';
-    retChkRow.onclick = (function(jid){ return function(e){ e.stopPropagation(); jobToggleStage(jid,'returned'); }; })(j.id);
-    retChkRow.innerHTML =
-      '<div class="stage-box' + (j.returned?' checked-blue':'') + '">' +
-      (j.returned?'<svg width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3 5.5L8 1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>':'') +
-      '</div><span class="stage-label">Returned</span>';
-    retDiv.appendChild(retChkRow);
-  }
-  td.appendChild(retDiv);
-  return td;
-}
-
-function makeJobRow(j, isCompleted) {
-  var ev = j.event ? '<span class="badge ' + (j.event==='\u2713'?'badge-done':'badge-pending') + '">' + (j.event==='\u2713'?'\u2713 Done':j.event) + '</span>' : '<span class="badge badge-none">\u2014</span>';
-  var lb = j.lb ? '<span class="lb-num">' + j.lb + '</span>' : '<span style="color:#2a3d52">\u2014</span>';
-
-  var tr = document.createElement('tr');
-  if (isCompleted) tr.className = 'job-closed';
-
-  var actionBtns = isCompleted
-    ? '<button class="icon-btn" onclick="jobReopen(' + j.id + ')" style="font-size:12px;color:#4a6278">\u21A9 Reopen</button>'
-    : '<button class="icon-btn" onclick="jobEdit(' + j.id + ')" title="Edit">\u270F\uFE0F</button>' +
-      '<button class="icon-btn" onclick="shipOpen(' + j.id + ')" title="Shipping Checklist">\uD83D\uDCCB</button>' +
-      '<button class="closeout-btn" onclick="jobCloseOut(' + j.id + ')">\u2713 Close Out</button>';
 
   tr.innerHTML =
     '<td class="cell site">' + j.site + '</td>' +
-    '<td class="cell">' + lb + '</td>' +
+    '<td class="cell">' + lbHtml + '</td>' +
     '<td class="cell">' + ev + '</td>' +
     '<td class="cell">' + (j.tech || '<span style="color:#2a3d52">\u2014</span>') + '</td>' +
-    '<td class="cell ship-status-ph-' + j.id + '"></td>' +
-    '<td class="cell" style="font-size:12px;color:#4a6278;max-width:110px;white-space:normal">' + (j.notes||'') + '</td>' +
-    '<td class="cell" style="white-space:nowrap">' + actionBtns + '</td>';
+    '<td class="cell">' + makeStatusBadge(j) + '</td>' +
+    '<td class="ship-col-ph"></td>' +
+    '<td class="cell" style="font-size:12px;color:#4a6278;max-width:100px;white-space:normal">' + (j.notes||'') + '</td>' +
+    '<td class="cell" style="white-space:nowrap">' + actionCell + '</td>';
 
-  var ph = tr.querySelector('.ship-status-ph-' + j.id);
-  ph.replaceWith(makeShipStatusCell(j, isCompleted));
+  tr.querySelector('.ship-col-ph').replaceWith(shipCell);
   return tr;
 }
 
 function renderJobs() {
   var jobs      = getJobs();
-  var active    = jobs.filter(function(j){ return !j.closed; });
-  var completed = jobs.filter(function(j){ return j.closed; });
+  var active    = sortActiveJobs(jobs.filter(function(j){ return !j.closed; }));
+  var completed = sortClosedJobs(jobs.filter(function(j){ return j.closed; }));
   var body      = document.getElementById('job-body');
   var compBody  = document.getElementById('comp-job-body');
   var countEl   = document.getElementById('comp-jobs-count');
-  body.innerHTML = ''; compBody.innerHTML = '';
-  active.forEach(function(j)    { body.appendChild(makeJobRow(j, false)); });
-  completed.forEach(function(j) { compBody.appendChild(makeJobRow(j, true)); });
+  if (body)    { body.innerHTML = '';    active.forEach(function(j)    { body.appendChild(makeJobRow(j, false, jobs)); }); }
+  if (compBody){ compBody.innerHTML = ''; completed.forEach(function(j) { compBody.appendChild(makeJobRow(j, true, jobs)); }); }
   if (countEl) countEl.textContent = completed.length + ' job' + (completed.length!==1?'s':'');
 }
 
+// Sales board
+function renderSalesBoard() {
+  var jobs   = getJobs();
+  var active = sortActiveJobs(jobs.filter(function(j){ return !j.closed; }));
+  var body   = document.getElementById('sales-job-body');
+  if (!body) return;
+  body.innerHTML = '';
+  active.forEach(function(j) {
+    var st = STATUS_MAP[getJobStatus(j)];
+    var ev = j.event ? '<span class="badge badge-pending">' + j.event + '</span>' : '<span class="badge badge-none">\u2014</span>';
+    var lb = j.lb ? '<span class="lb-num">' + j.lb + '</span>' : '<span style="color:#2a3d52">\u2014</span>';
+    var tr = document.createElement('tr');
+    tr.style.borderBottom = '1px solid #0f1d28';
+    tr.innerHTML =
+      '<td class="cell site">' + j.site + '</td>' +
+      '<td class="cell">' + lb + '</td>' +
+      '<td class="cell">' + ev + '</td>' +
+      '<td class="cell">' + (j.tech||'<span style="color:#2a3d52">\u2014</span>') + '</td>' +
+      '<td class="cell"><span class="status-badge ' + st.cls + '">' + st.label + '</span></td>';
+    body.appendChild(tr);
+  });
+}
+
+// OPS add/edit modal
 function jobAdd() {
   editJobId = null;
   document.getElementById('job-modal-title').textContent = 'Add Job';
-  ['jf-site','jf-lb','jf-out','jf-event','jf-tech','jf-notes','jf-indate','jf-retdate'].forEach(function(id){ document.getElementById(id).value=''; });
-  document.getElementById('jf-ins').value = 'needs-carrier';
-  document.getElementById('jf-ret').value = 'needs-carrier';
+  ['jf-site','jf-lb','jf-tech','jf-notes'].forEach(function(id){ document.getElementById(id).value=''; });
+  ['jf-event','jf-out'].forEach(function(id){ document.getElementById(id).value=''; });
   document.getElementById('job-del-btn').style.display = 'none';
-  toggleCarrierDates();
   document.getElementById('job-modal').classList.add('open');
 }
 
@@ -648,70 +982,26 @@ function jobEdit(id) {
   if (!j) return;
   editJobId = id;
   document.getElementById('job-modal-title').textContent = 'Edit \u2014 ' + j.site;
-  document.getElementById('jf-site').value    = j.site;
-  document.getElementById('jf-lb').value      = j.lb;
-  document.getElementById('jf-out').value     = toInputDate(j.out);
-  document.getElementById('jf-event').value   = toInputDate(j.event);
-  document.getElementById('jf-tech').value    = j.tech;
-  document.getElementById('jf-notes').value   = j.notes;
-  document.getElementById('jf-ins').value     = j.ins   || 'needs-carrier';
-  document.getElementById('jf-indate').value  = toInputDate(j.ind  || '');
-  document.getElementById('jf-ret').value     = j.ret   || 'needs-carrier';
-  document.getElementById('jf-retdate').value = toInputDate(j.retd || '');
+  document.getElementById('jf-site').value  = j.site;
+  document.getElementById('jf-lb').value    = j.lb;
+  document.getElementById('jf-event').value = toInputDate(j.event);
+  document.getElementById('jf-out').value   = toInputDate(j.out);
+  document.getElementById('jf-tech').value  = j.tech;
+  document.getElementById('jf-notes').value = j.notes;
   document.getElementById('job-del-btn').style.display = 'inline-block';
-  toggleCarrierDates();
   document.getElementById('job-modal').classList.add('open');
 }
 
 function jobModalClose() { document.getElementById('job-modal').classList.remove('open'); editJobId=null; }
 
-// Convert YYYY-MM-DD to M/D for display, and M/D to YYYY-MM-DD for date input
-function toInputDate(str) {
-  if (!str) return '';
-  // Already in YYYY-MM-DD format
-  if (str.match(/^\d{4}-\d{2}-\d{2}$/)) return str;
-  // Convert M/D or M/D/YY to YYYY-MM-DD
-  var parts = str.split('/');
-  if (parts.length >= 2) {
-    var yr = parts[2] ? (parts[2].length===2 ? '20'+parts[2] : parts[2]) : new Date().getFullYear();
-    var mo = parts[0].padStart(2,'0');
-    var dy = parts[1].padStart(2,'0');
-    return yr + '-' + mo + '-' + dy;
-  }
-  return '';
-}
-
-function fromInputDate(str) {
-  if (!str) return '';
-  // Convert YYYY-MM-DD to M/D
-  var parts = str.split('-');
-  if (parts.length === 3) {
-    return parseInt(parts[1]) + '/' + parseInt(parts[2]);
-  }
-  return str;
-}
-
-function toggleCarrierDates() {
-  var ins = document.getElementById('jf-ins').value;
-  var ret = document.getElementById('jf-ret').value;
-  document.getElementById('jf-indate-wrap').style.display  = (ins==='KBE'||ins==='ABL') ? 'flex' : 'none';
-  document.getElementById('jf-retdate-wrap').style.display = (ret==='KBE'||ret==='ABL') ? 'flex' : 'none';
-}
-document.getElementById('jf-ins').addEventListener('change', toggleCarrierDates);
-document.getElementById('jf-ret').addEventListener('change', toggleCarrierDates);
-
 function jobSave() {
   var data = {
     site:  document.getElementById('jf-site').value.trim(),
     lb:    document.getElementById('jf-lb').value.trim(),
-    out:   fromInputDate(document.getElementById('jf-out').value.trim()),
-    event: fromInputDate(document.getElementById('jf-event').value.trim()),
+    event: fromInputDate(document.getElementById('jf-event').value),
+    out:   fromInputDate(document.getElementById('jf-out').value),
     tech:  document.getElementById('jf-tech').value.trim(),
-    notes: document.getElementById('jf-notes').value.trim(),
-    ins:   document.getElementById('jf-ins').value,
-    ind:   fromInputDate(document.getElementById('jf-indate').value.trim()),
-    ret:   document.getElementById('jf-ret').value,
-    retd:  fromInputDate(document.getElementById('jf-retdate').value.trim())
+    notes: document.getElementById('jf-notes').value.trim()
   };
   if (!data.site) return;
   var jobs = getJobs();
@@ -720,18 +1010,47 @@ function jobSave() {
     if (idx > -1) jobs[idx] = Object.assign(jobs[idx], data);
   } else {
     var newId = jobs.length ? Math.max.apply(null, jobs.map(function(x){ return x.id; })) + 1 : 1;
-    jobs.push(Object.assign({id:newId, closed:false, booked:false, shipped:false, returned:false}, data));
+    jobs.push(Object.assign({id:newId, ins:'needs-carrier', ind:'', ret:'needs-carrier', retd:'', closed:false, booked:false, shipped:false, returned:false, closeDate:''}, data));
   }
-  setJobs(jobs); renderJobs(); renderShipLog(); jobModalClose();
+  setJobs(jobs); renderAll(); jobModalClose();
 }
 
 function jobDelete() {
   if (editJobId===null || !confirm('Delete this job?')) return;
   setJobs(getJobs().filter(function(x){ return x.id!==editJobId; }));
-  renderJobs(); renderShipLog(); jobModalClose();
+  renderAll(); jobModalClose();
 }
 
 document.getElementById('job-modal').addEventListener('click', function(e){ if(e.target===this) jobModalClose(); });
+
+// Sales add job
+var salesEditId = null;
+function salesJobAdd() {
+  document.getElementById('sjf-site').value  = '';
+  document.getElementById('sjf-lb').value    = '';
+  document.getElementById('sjf-event').value = '';
+  document.getElementById('sales-job-modal').classList.add('open');
+  setTimeout(function(){ document.getElementById('sjf-site').focus(); }, 50);
+}
+
+function salesJobSave() {
+  var site = document.getElementById('sjf-site').value.trim();
+  if (!site) return;
+  var jobs  = getJobs();
+  var newId = jobs.length ? Math.max.apply(null, jobs.map(function(x){ return x.id; })) + 1 : 1;
+  jobs.push({
+    id:newId, site:site,
+    lb:    document.getElementById('sjf-lb').value.trim(),
+    event: fromInputDate(document.getElementById('sjf-event').value),
+    out:'', tech:'', notes:'',
+    ins:'needs-carrier', ind:'', ret:'needs-carrier', retd:'',
+    closed:false, booked:false, shipped:false, returned:false, closeDate:''
+  });
+  setJobs(jobs); renderAll(); salesJobModalClose();
+}
+
+function salesJobModalClose() { document.getElementById('sales-job-modal').classList.remove('open'); }
+document.getElementById('sales-job-modal').addEventListener('click', function(e){ if(e.target===this) salesJobModalClose(); });
 
 // ══════════════════════════════════════════════════
 // SHIPPING CHECKLIST
@@ -744,21 +1063,60 @@ var SHIP_ITEMS = [
   {num:5,  name:'TP pin',                             def:1,    v:false, sec:'Standard Items'},
   {num:6,  name:'TP pin handle extension',            def:1,    v:false, sec:'Standard Items'},
   {num:7,  name:'CS',                                 def:1,    v:false, sec:'Standard Items'},
-  {num:8,  name:'Inventus battery',                   def:1,    v:false, sec:'Standard Items'},
+  {num:8,  name:'Inventus battery',                   def:2,    v:false, sec:'Standard Items'},
   {num:9,  name:'AUTEC controllers + batteries',      def:2,    v:false, sec:'Standard Items'},
   {num:10, name:'AUTEC controller batteries, spares', def:2,    v:false, sec:'Standard Items'},
   {num:11, name:'Keys',                               def:2,    v:false, sec:'Standard Items'},
   {num:12, name:'Base and Base Rail',                 def:1,    v:false, sec:'Standard Items'},
-  {num:13, name:'Rails',                              def:null, v:true,  sec:'Rail System'},
+  {num:13, name:'Rails',                              def:5,    v:false, sec:'Rail System'},
   {num:14, name:'TPGM',                               def:0,    v:false, sec:'Accessories'},
   {num:15, name:'Magnetic adapter cable',             def:1,    v:false, sec:'Accessories'},
   {num:16, name:'Greentagged Spare Parts Kit',        def:1,    v:false, sec:'Accessories'},
-  {num:17, name:'Base jacks (if demo)',               def:null, v:true,  sec:'Variable / Conditional'},
-  {num:18, name:'Linkage rail',                       def:null, v:true,  sec:'Variable / Conditional'},
-  {num:19, name:'Scaffolding parts',                  def:null, v:true,  sec:'Variable / Conditional'}
+  {num:17, name:'Base jacks (if demo)',               def:0,    v:false, sec:'Variable / Conditional'},
+  {num:18, name:'Linkage rail',                       def:0,    v:false, sec:'Variable / Conditional'},
+  {num:19, name:'Scaffolding parts',                  def:0,    v:false, sec:'Variable / Conditional'}
 ];
 
-var shipJobId = null;
+var UNLOCK_PIN  = '1104';
+var shipJobId   = null;
+var shipMode    = 'outbound';
+
+// PIN gate
+var _pinCallback = null;
+
+function requirePin(cb) {
+  _pinCallback = cb;
+  var input = document.getElementById('pin-input');
+  var err   = document.getElementById('pin-error');
+  if (input) input.value = '';
+  if (err)   err.textContent = '';
+  document.getElementById('pin-modal').classList.add('open');
+  setTimeout(function(){ if (input) input.focus(); }, 100);
+}
+
+function pinConfirm() {
+  var val = document.getElementById('pin-input').value;
+  var err = document.getElementById('pin-error');
+  if (val === UNLOCK_PIN) {
+    document.getElementById('pin-modal').classList.remove('open');
+    if (_pinCallback) { _pinCallback(); _pinCallback = null; }
+  } else {
+    err.textContent = 'Incorrect PIN';
+    var input = document.getElementById('pin-input');
+    input.style.borderColor = '#ff4444';
+    input.value = '';
+    setTimeout(function(){ input.style.borderColor = '#1e2d3d'; }, 800);
+    setTimeout(function(){ input.focus(); }, 100);
+  }
+}
+
+function pinCancel() {
+  document.getElementById('pin-modal').classList.remove('open');
+  _pinCallback = null;
+}
+
+document.getElementById('pin-modal').addEventListener('click', function(e){ if(e.target===this) pinCancel(); });
+
 function getPackData()  { return ls(PACK_KEY) || {}; }
 function setPackData(d) { ss(PACK_KEY, d); }
 
@@ -774,7 +1132,6 @@ function isAllReturned(jd) {
   if (!isOutboundLocked(jd)) return false;
   return SHIP_ITEMS.every(function(item) {
     var s = (jd[item.num]||{});
-    // Skip variable items that were left blank outbound
     if (item.v && (s.outQty===undefined || s.outQty==='')) return true;
     return s.returned === true;
   });
@@ -792,31 +1149,34 @@ function getShipStatus(jobId) {
 function renderShipLog() {
   var jobs = getJobs();
   var body = document.getElementById('ship-log-body');
+  if (!body) return;
   body.innerHTML = '';
   jobs.forEach(function(j) {
     var status = getShipStatus(j.id);
     var lbl, cls;
-    if      (status==='returned') { lbl='\u2713 All Returned';   cls='sls-returned'; }
-    else if (status==='locked')   { lbl='\u2713 Outbound Locked';cls='sls-locked'; }
-    else if (status==='partial')  { lbl='In Progress';           cls='sls-partial'; }
-    else                          { lbl='Not Started';           cls='sls-empty'; }
+    if      (status==='returned') { lbl='\u2713 All Returned';    cls='sls-returned'; }
+    else if (status==='locked')   { lbl='\u2713 Outbound Locked'; cls='sls-locked'; }
+    else if (status==='partial')  { lbl='In Progress';            cls='sls-partial'; }
+    else                          { lbl='Not Started';            cls='sls-empty'; }
     var row = document.createElement('div');
     row.className = 'ship-log-row';
-    row.onclick = function(){ shipOpen(j.id); };
+    row.onclick = function(){ shipOpen(j.id, 'outbound'); };
     row.innerHTML =
       '<div>' +
         '<div class="ship-log-site">' + j.site + (j.closed?' <span style="font-size:11px;color:#2a3d52">(closed)</span>':'') + '</div>' +
         '<div class="ship-log-meta">' + (j.lb?'Unit '+j.lb:'') + (j.event?(j.lb?' \u00B7 ':'')+' Event '+j.event:'') + (j.tech?' \u00B7 '+j.tech:'') + '</div>' +
       '</div>' +
-      '<span class="ship-log-status ' + cls + '">' + lbl + '</span>';
+      '<span class="status-badge ' + cls + '">' + lbl + '</span>';
     body.appendChild(row);
   });
 }
 
-function shipOpen(jobId) {
+function shipOpen(jobId, mode) {
   shipJobId = jobId;
+  shipMode  = mode || 'outbound';
   var job = getJobs().find(function(j){ return j.id===jobId; });
   if (!job) return;
+  document.getElementById('ship-modal-title').textContent = (shipMode==='return' ? 'Return Checklist' : 'Outbound Checklist');
   document.getElementById('ship-meta').textContent =
     job.site + (job.lb?' \u00B7 Unit '+job.lb:'') + (job.event?' \u00B7 Event '+job.event:'') + (job.tech?' \u00B7 '+job.tech:'');
   shipRender(jobId);
@@ -881,9 +1241,7 @@ function shipRender(jobId) {
     var outCell =
       '<div style="display:flex;align-items:center;justify-content:center;gap:6px">' +
       '<input type="number" value="' + outQty + '" placeholder="' + (item.v?'\u2014':'0') + '"' +
-      (conf
-        ? ' disabled style="width:52px;background:#111d28;border:1px solid #1e2d3d;border-radius:4px;color:#4a6278;font-size:13px;padding:4px 6px;text-align:center;outline:none;cursor:not-allowed;opacity:0.6"'
-        : ' style="width:52px;background:#111d28;border:1px solid #1e2d3d;border-radius:4px;color:#e8edf2;font-size:13px;padding:4px 6px;text-align:center;outline:none"') +
+      (conf ? ' disabled style="width:52px;background:#111d28;border:1px solid #1e2d3d;border-radius:4px;color:#4a6278;font-size:13px;padding:4px 6px;text-align:center;outline:none;cursor:not-allowed;opacity:0.6"' : ' style="width:52px;background:#111d28;border:1px solid #1e2d3d;border-radius:4px;color:#e8edf2;font-size:13px;padding:4px 6px;text-align:center;outline:none"') +
       ' data-jid="' + jobId + '" data-num="' + item.num + '" data-f="outQty" onchange="shipUpdate(this)">' +
       '<input type="checkbox" ' + (conf?'checked':'') + ' title="Confirm &amp; lock" style="width:16px;height:16px;accent-color:#00c896;cursor:pointer"' +
       ' data-jid="' + jobId + '" data-num="' + item.num + '" onchange="shipConfirm(this)">' +
@@ -905,7 +1263,13 @@ function shipRender(jobId) {
     }
 
     var nameColor  = ret ? '#2e75b6' : conf ? '#a8d060' : '#c8d6e2';
-    var nameSuffix = ret ? ' <span style="font-size:10px;color:#2e75b6">\u2713</span>' : conf ? ' <span style="font-size:10px;color:#4a7a20">\u2713</span>' : '';
+    var byConf = (conf && s.confirmedBy) ? ' <span style="font-size:10px;color:#4a6278">' + s.confirmedBy + '</span>' : '';
+    var byRet  = (ret  && s.returnedBy)  ? ' <span style="font-size:10px;color:#4a6278">' + s.returnedBy  + '</span>' : '';
+    var nameSuffix = ret
+      ? ' <span style="font-size:10px;color:#2e75b6">\u2713</span>' + byRet
+      : conf
+      ? ' <span style="font-size:10px;color:#4a7a20">\u2713</span>' + byConf
+      : '';
 
     tr.innerHTML =
       '<td style="padding:7px 8px;font-size:12px;color:#4a6278">' + item.num + '</td>' +
@@ -925,18 +1289,89 @@ function shipUpdate(input) {
 }
 
 function shipConfirm(input) {
-  var jid=parseInt(input.dataset.jid); var num=parseInt(input.dataset.num);
-  var pd=getPackData(); if(!pd[jid])pd[jid]={}; if(!pd[jid][num])pd[jid][num]={};
-  pd[jid][num].confirmed=input.checked; setPackData(pd); shipRender(jid); renderShipLog();
+  var jid = parseInt(input.dataset.jid);
+  var num = parseInt(input.dataset.num);
+  var pd  = getPackData();
+  if (!pd[jid]) pd[jid] = {};
+  if (!pd[jid][num]) pd[jid][num] = {};
+
+  // Unchecking a confirmed item requires PIN
+  if (!input.checked && pd[jid][num].confirmed) {
+    input.checked = true; // revert visually until PIN confirmed
+    requirePin(function() {
+      pd[jid][num].confirmed = false;
+      setPackData(pd); shipRender(jid); renderShipLog(); renderJobs(); renderSalesBoard();
+    });
+    return;
+  }
+
+  // Confirming — capture who did it and when
+  if (input.checked) {
+    var who = localStorage.getItem('kewazo_user_name') || '';
+    if (!who) {
+      who = prompt('Enter your name to confirm this item:');
+      if (!who || !who.trim()) { input.checked = false; return; }
+      who = who.trim();
+      localStorage.setItem('kewazo_user_name', who);
+    }
+    pd[jid][num].confirmedBy   = who;
+    pd[jid][num].confirmedAt   = new Date().toISOString();
+  }
+
+  pd[jid][num].confirmed = input.checked;
+  setPackData(pd); shipRender(jid); renderShipLog(); renderJobs(); renderSalesBoard();
 }
 
 function shipToggleReturn(jid, num) {
-  var pd=getPackData(); if(!pd[jid])pd[jid]={}; if(!pd[jid][num])pd[jid][num]={};
-  pd[jid][num].returned=!pd[jid][num].returned;
-  setPackData(pd); shipRender(jid); renderShipLog();
+  var pd = getPackData();
+  if (!pd[jid]) pd[jid] = {};
+  if (!pd[jid][num]) pd[jid][num] = {};
+
+  // Unchecking a returned item requires PIN
+  if (pd[jid][num].returned) {
+    requirePin(function() {
+      pd[jid][num].returned = false;
+      setPackData(pd); shipRender(jid); renderShipLog(); renderJobs(); renderSalesBoard();
+    });
+    return;
+  }
+
+  // Marking returned — capture who did it
+  var who = localStorage.getItem('kewazo_user_name') || '';
+  if (!who) {
+    who = prompt('Enter your name to confirm this item returned:');
+    if (!who || !who.trim()) return;
+    who = who.trim();
+    localStorage.setItem('kewazo_user_name', who);
+  }
+  pd[jid][num].returned   = true;
+  pd[jid][num].returnedBy = who;
+  pd[jid][num].returnedAt = new Date().toISOString();
+  setPackData(pd);
+
+  // If all returned, prompt for closeout instead of auto-closing
+  var jd2 = pd[jid];
+  if (isAllReturned(jd2)) {
+    var jobs2 = getJobs();
+    var job2  = jobs2.find(function(x){ return x.id===jid; });
+    if (job2) {
+      job2.returned = true;
+      setJobs(jobs2);
+    }
+    shipRender(jid); renderShipLog(); renderJobs(); renderSalesBoard();
+    setTimeout(function(){ showCloseoutModal(jid); }, 400);
+    return;
+  }
+
+  shipRender(jid); renderShipLog(); renderJobs(); renderSalesBoard();
 }
 
-function shipClose() { document.getElementById('ship-modal').classList.remove('open'); shipJobId=null; }
+function shipClose() {
+  document.getElementById('ship-modal').classList.remove('open');
+  // After closing checklist, re-render to update warning badges
+  renderJobs(); renderSalesBoard(); renderShipLog();
+  shipJobId = null;
+}
 
 function shipDownload() {
   var job=getJobs().find(function(j){ return j.id===shipJobId; });
@@ -971,126 +1406,176 @@ function shipDownload() {
   a.click();
 }
 
-document.getElementById('ship-modal').addEventListener('click', function(e){ if(e.target===this) shipClose(); });
+// Secret: long-press Outbound header 2s to confirm all items at once
+function shipConfirmAll(jobId) {
+  var who = localStorage.getItem('kewazo_user_name') || '';
+  if (!who) {
+    who = prompt('Enter your name to confirm all outbound items:');
+    if (!who || !who.trim()) return;
+    who = who.trim();
+    localStorage.setItem('kewazo_user_name', who);
+  }
+  var pd = getPackData();
+  if (!pd[jobId]) pd[jobId] = {};
+  var now = new Date().toISOString();
+  SHIP_ITEMS.forEach(function(item) {
+    if (!pd[jobId][item.num]) pd[jobId][item.num] = {};
+    var s = pd[jobId][item.num];
+    if (s.outQty === undefined || s.outQty === '') {
+      s.outQty = String(item.def !== null ? item.def : 0);
+    }
+    s.confirmed    = true;
+    s.confirmedBy  = who;
+    s.confirmedAt  = now;
+  });
+  setPackData(pd);
+  shipRender(jobId);
+  renderShipLog();
+  renderJobs();
+}
 
-// ══════════════════════════════════════════════════
+function shipReturnAll(jobId) {
+  var who = localStorage.getItem('kewazo_user_name') || '';
+  if (!who) {
+    who = prompt('Enter your name to confirm all items returned:');
+    if (!who || !who.trim()) return;
+    who = who.trim();
+    localStorage.setItem('kewazo_user_name', who);
+  }
+  var pd = getPackData();
+  if (!pd[jobId]) pd[jobId] = {};
+  var now = new Date().toISOString();
+  SHIP_ITEMS.forEach(function(item) {
+    if (!pd[jobId][item.num]) pd[jobId][item.num] = {};
+    pd[jobId][item.num].returned   = true;
+    pd[jobId][item.num].returnedBy = who;
+    pd[jobId][item.num].returnedAt = now;
+  });
+  setPackData(pd);
+  // Prompt for closeout instead of auto-closing
+  var jobs2 = getJobs();
+  var job2  = jobs2.find(function(x){ return x.id===jobId; });
+  if (job2) {
+    job2.returned = true;
+    setJobs(jobs2);
+  }
+  shipRender(jobId);
+  renderShipLog();
+  renderJobs();
+  setTimeout(function(){ showCloseoutModal(jobId); }, 400);
+}
+
+var _outboundHoldTimer = null;
+var _returnHoldTimer   = null;
+
+function attachOutboundLongPress() {
+  var th = document.querySelector('#ship-modal thead th:nth-child(3)');
+  if (!th) return;
+  th.style.cursor = 'pointer';
+  th.style.userSelect = 'none';
+  function startHold() { _outboundHoldTimer = setTimeout(function() { if (shipJobId !== null) shipConfirmAll(shipJobId); }, 2000); }
+  function endHold()   { clearTimeout(_outboundHoldTimer); }
+  th.addEventListener('mousedown',  startHold);
+  th.addEventListener('mouseup',    endHold);
+  th.addEventListener('mouseleave', endHold);
+  th.addEventListener('touchstart', startHold, {passive:true});
+  th.addEventListener('touchend',   endHold);
+}
+
+function attachReturnLongPress() {
+  var th = document.getElementById('ship-th-return');
+  if (!th) return;
+  th.style.cursor = 'pointer';
+  th.style.userSelect = 'none';
+  function startHold() { _returnHoldTimer = setTimeout(function() { if (shipJobId !== null) shipReturnAll(shipJobId); }, 2000); }
+  function endHold()   { clearTimeout(_returnHoldTimer); }
+  th.addEventListener('mousedown',  startHold);
+  th.addEventListener('mouseup',    endHold);
+  th.addEventListener('mouseleave', endHold);
+  th.addEventListener('touchstart', startHold, {passive:true});
+  th.addEventListener('touchend',   endHold);
+}
+
+document.getElementById('ship-modal').addEventListener('click', function(e){ if(e.target===this) shipClose(); });
+attachOutboundLongPress();
+attachReturnLongPress();
+
+// ======================================================
 // EXPORT / IMPORT / RESET
-// ══════════════════════════════════════════════════
+// ======================================================
 function exportData() {
-  var data = {
-    version: 1,
-    exported: new Date().toISOString(),
-    jobs:  localStorage.getItem(JOB_KEY)  || 'null',
-    tasks: localStorage.getItem(TASK_KEY) || 'null',
-    pack:  localStorage.getItem(PACK_KEY) || 'null'
-  };
-  var blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
-  var a    = document.createElement('a');
-  var ds   = new Date().toLocaleDateString('en-US',{month:'2-digit',day:'2-digit',year:'2-digit'}).replace(/\//g,'-');
-  a.href     = URL.createObjectURL(blob);
+  var data = {version:1, exported:new Date().toISOString(), jobs:localStorage.getItem(JOB_KEY)||'null', tasks:localStorage.getItem(TASK_KEY)||'null', pack:localStorage.getItem(PACK_KEY)||'null'};
+  var a = document.createElement('a');
+  var ds = new Date().toLocaleDateString('en-US',{month:'2-digit',day:'2-digit',year:'2-digit'}).replace(/\//g,'-');
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));
   a.download = 'OpsHub_' + ds + '.json';
   a.click();
 }
 
 function importData(input) {
-  var file = input.files[0];
-  if (!file) return;
+  var file = input.files[0]; if (!file) return;
   var reader = new FileReader();
   reader.onload = function(e) {
     try {
       var data = JSON.parse(e.target.result);
-      if (!data.version) { alert('Invalid file - not an Ops Hub export.'); return; }
-      if (!confirm('This will replace all current data on this device with the imported file. Continue?')) return;
-      if (data.jobs  && data.jobs  !== 'null') localStorage.setItem(JOB_KEY,  data.jobs);
-      if (data.tasks && data.tasks !== 'null') localStorage.setItem(TASK_KEY, data.tasks);
-      if (data.pack  && data.pack  !== 'null') localStorage.setItem(PACK_KEY, data.pack);
-      location.reload();
-    } catch(err) {
-      alert('Could not read file. Make sure it is a valid Ops Hub export.');
-    }
+      if (!data.version) { alert('Invalid file.'); return; }
+      if (!confirm('Replace all current data with imported file?')) return;
+      if (data.jobs  && data.jobs  !== 'null') { localStorage.setItem(JOB_KEY,  data.jobs);  _cache[JOB_KEY]  = JSON.parse(data.jobs); }
+      if (data.tasks && data.tasks !== 'null') { localStorage.setItem(TASK_KEY, data.tasks); _cache[TASK_KEY] = JSON.parse(data.tasks); }
+      if (data.pack  && data.pack  !== 'null') { localStorage.setItem(PACK_KEY, data.pack);  _cache[PACK_KEY] = JSON.parse(data.pack); }
+      pushDirty();
+      renderAll();
+    } catch(err) { alert('Could not read file.'); }
   };
   reader.readAsText(file);
   input.value = '';
 }
 
 function resetData() {
-  if (!confirm('Reset will clear ALL data on this device and reload fresh defaults. This cannot be undone. Continue?')) return;
-  localStorage.removeItem(JOB_KEY);
-  localStorage.removeItem(TASK_KEY);
-  localStorage.removeItem(PACK_KEY);
-  location.reload();
+  if (!confirm('Reset will clear ALL data. Continue?')) return;
+  [JOB_KEY, TASK_KEY, PACK_KEY].forEach(function(k){ localStorage.removeItem(k); delete _cache[k]; });
+  renderAll();
 }
 
-// Pull from Google Sheets on load, then render everything
-pullAll(function() {
-  renderJobs();
-  renderShipLog();
-  renderChecklist();
-});
-
-// ══════════════════════════════════════════════════
+// ======================================================
 // DAILY CHECKLIST
-// ══════════════════════════════════════════════════
+// ======================================================
 var DEFAULT_SECTIONS = [
   { id:'today', label:'Today', title:fmtLong(today), tasks:[
-    {id:'t0', text:'P66 vendor setup',                                                     meta:'',                                            pri:true,  done:true, hl:false,fu:false,note:''},
-    {id:'t1', text:'Book travel \u2014 Artem, Isaac, Kenny',                               meta:'',                                            pri:false, done:true, hl:false,fu:false,note:''},
-    {id:'t2', text:'Confirm travel complete for MiOps Innovation Day',                     meta:'',                                            pri:false, done:true, hl:false,fu:false,note:''},
-    {id:'t3', text:'Finalize travel for Heitor (Valero McKee)',                            meta:'',                                            pri:false, done:true, hl:false,fu:false,note:''},
-    {id:'t4', text:'Reach out to Jay \u2014 reschedule to 10:00 or 10:30 AM',             meta:'',                                            pri:false, done:true, hl:false,fu:false,note:''},
-    {id:'t5', text:'Sort equipment allocation: MiOps vs. Valero McKee',                    meta:'Settle before Geoff leaves',                  pri:false, done:true, hl:false,fu:false,note:''},
-    {id:'t6', text:'Set up shipment \u2014 Valero McKee + confirm Texas City demo',        meta:'2 units?',                                    pri:false, done:true, hl:false,fu:false,note:''},
-    {id:'t7', text:'Confirm with Gabe \u2014 truck setup sent to billing',                 meta:'',                                            pri:false, done:true, hl:false,fu:false,note:''},
-    {id:'t8', text:'Create BOL for Valero McKee truck',                                    meta:'',                                            pri:false, done:true, hl:false,fu:false,note:''},
-    {id:'t9', text:'Create BOL for MiOps (Michigan)',                                      meta:'',                                            pri:false, done:true, hl:false,fu:false,note:''},
-    {id:'t13',text:'Check with Dima \u2014 account balance / spending headroom',           meta:'',                                            pri:false, done:true, hl:false,fu:false,note:''},
-    {id:'t14',text:'Decide: rubber wood work tables (2-pack ~$499) or maple top',          meta:'',                                            pri:false, done:true, hl:false,fu:false,note:''},
-    {id:'t15',text:'Buy shipping table',                                                   meta:'Bottom shelf + computer, modeled after Gecko', pri:false, done:true, hl:false,fu:false,note:''},
-    {id:'t16',text:'Figure out remaining supply needs',                                    meta:'',                                            pri:false, done:true, hl:false,fu:false,note:''},
-    {id:'tv1',text:'Prepare Lunch & Learn \u2014 Valero McKee',                            meta:'',                                            pri:false, done:true, hl:false,fu:false,note:''},
-    {id:'t10',text:'Reach out to Rupert \u2014 confirm shipment start',                    meta:'',                                            pri:false, done:false,hl:false,fu:true, note:''},
-    {id:'t11',text:'Touch base with Mark at Motiva \u2014 confirm badging headcount',      meta:"Confirm with Geoff on who's going",            pri:false, done:false,hl:false,fu:true, note:''},
-    {id:'t12',text:'Pay UPS bill',                                                         meta:'',                                            pri:false, done:false,hl:false,fu:true, note:''},
-    {id:'ta1',text:'Prepare Lunch & Learn \u2014 Apache',                                  meta:'',                                            pri:false, done:false,hl:false,fu:false,note:''},
-    {id:'ta2',text:'Noatum \u2014 POA',                                                    meta:'',                                            pri:false, done:false,hl:false,fu:false,note:''},
-    {id:'ta3',text:'Prepare Lunch & Learn \u2014 Texas City',                              meta:'',                                            pri:false, done:false,hl:false,fu:false,note:''},
-    {id:'ta4',text:'Build two inventory shelves',                                           meta:'',                                            pri:false, done:false,hl:false,fu:false,note:''},
-    {id:'ta5',text:'Move inventory',                                                       meta:'',                                            pri:false, done:false,hl:false,fu:false,note:''},
-    {id:'ta6',text:'Consolidate all spare parts to one area',                              meta:'',                                            pri:false, done:false,hl:false,fu:false,note:''},
-    {id:'ta7',text:'Consolidate all tools to one area',                                    meta:'',                                            pri:false, done:false,hl:false,fu:false,note:''},
-    {id:'ta8',text:'Move upgrades to designated area',                                     meta:'Location TBD',                                pri:false, done:false,hl:false,fu:false,note:''},
-    {id:'ta9',text:'Build small parts cabinet for screws and hardware',                    meta:'',                                            pri:false, done:false,hl:false,fu:false,note:''},
-    {id:'tb1',text:'Uline order for bins',                                                 meta:'',                                            pri:false, done:false,hl:false,fu:false,note:''},
-    {id:'tb2',text:'Measure bins needed for yesterday\'s shelves',                         meta:'',                                            pri:false, done:false,hl:false,fu:false,note:''},
-    {id:'tb3',text:'Strap equipment for Texas City',                                       meta:'',                                            pri:false, done:false,hl:false,fu:false,note:''},
-    {id:'tb4',text:'Sync with Artem \u2014 check for upcoming events not on radar',        meta:'',                                            pri:false, done:false,hl:false,fu:false,note:''},
-    {id:'tb5',text:'Reach out to Geoff in Germany \u2014 trip check-in',                   meta:'',                                            pri:false, done:false,hl:false,fu:false,note:''},
-    {id:'tc1',text:'Shop setup \u2014 put away new inventory, organize & stock shelves',   meta:'',                                            pri:false, done:false,hl:false,fu:false,note:''},
-    {id:'tc2',text:'Get Divyam\'s rate confirmation',                                      meta:'WhatsApp',                                    pri:false, done:false,hl:false,fu:false,note:''},
-    {id:'tc3',text:'Finalize BOL \u2014 Chevron Richmond',                                 meta:'500 lbs, 7ft trailer, 841 Chevron Way Richmond CA, Ray Anchondo',pri:false,done:false,hl:false,fu:false,note:''},
-    {id:'tc4',text:'Confirm load-out by 10am',                                             meta:'',                                            pri:false, done:false,hl:false,fu:false,note:''}
+    {id:'t10',text:'Reach out to Rupert \u2014 confirm shipment start',meta:'',pri:false,done:false,hl:false,fu:true,note:''},
+    {id:'t11',text:'Touch base with Mark at Motiva \u2014 confirm badging headcount',meta:"Confirm with Geoff on who's going",pri:false,done:false,hl:false,fu:true,note:''},
+    {id:'t12',text:'Pay UPS bill',meta:'',pri:false,done:false,hl:false,fu:true,note:''},
+    {id:'ta1',text:'Prepare Lunch & Learn \u2014 Apache',meta:'',pri:false,done:false,hl:false,fu:false,note:''},
+    {id:'ta3',text:'Prepare Lunch & Learn \u2014 Texas City',meta:'',pri:false,done:false,hl:false,fu:false,note:''},
+    {id:'ta5',text:'Move inventory',meta:'',pri:false,done:false,hl:false,fu:false,note:''},
+    {id:'ta6',text:'Consolidate all spare parts to one area',meta:'',pri:false,done:false,hl:false,fu:false,note:''},
+    {id:'ta7',text:'Consolidate all tools to one area',meta:'',pri:false,done:false,hl:false,fu:false,note:''},
+    {id:'ta8',text:'Move upgrades to designated area',meta:'Location TBD',pri:false,done:false,hl:false,fu:false,note:''},
+    {id:'ta9',text:'Build small parts cabinet for screws and hardware',meta:'',pri:false,done:false,hl:false,fu:false,note:''},
+    {id:'tb1',text:'Uline order for bins',meta:'',pri:false,done:false,hl:false,fu:false,note:''},
+    {id:'tb2',text:"Measure bins needed for yesterday's shelves",meta:'',pri:false,done:false,hl:false,fu:false,note:''},
+    {id:'tb3',text:'Strap equipment for Texas City',meta:'',pri:false,done:false,hl:false,fu:false,note:''},
+    {id:'tb4',text:'Sync with Artem \u2014 check for upcoming events not on radar',meta:'',pri:false,done:false,hl:false,fu:false,note:''},
+    {id:'tc2',text:"Get Divyam's rate confirmation",meta:'WhatsApp',pri:false,done:false,hl:false,fu:false,note:''},
+    {id:'tc3',text:'Finalize BOL \u2014 Chevron Richmond',meta:'500 lbs, 7ft trailer, 841 Chevron Way Richmond CA, Ray Anchondo',pri:false,done:false,hl:false,fu:false,note:''}
   ]},
   { id:'thisweek', label:'This Week', title:'This Week', tasks:[
-    {id:'tw1',text:'Isaac Delgado \u2014 book flights + hotel to Bay Area',                meta:'Need his departure city first',               pri:false, done:false,hl:false,fu:false,note:''},
-    {id:'tw2',text:'Exxon Baytown \u2014 get pickup window, then book Jason',             meta:'',                                            pri:false, done:false,hl:false,fu:false,note:''},
-    {id:'tw3',text:'Heitor \u2014 confirm ASMD scaffold drawing process',                 meta:'Generic vs. customized per job',              pri:false, done:false,hl:false,fu:false,note:''},
-    {id:'tw4',text:'Motiva (7/15) \u2014 contact Marc for badging + scaffold confirmation',meta:'',                                           pri:false, done:false,hl:false,fu:false,note:''},
-    {id:'tw5',text:'Motiva \u2014 send L&L template email + scaffold drawing PDF',        meta:'',                                            pri:false, done:false,hl:false,fu:false,note:''},
-    {id:'tw6',text:'SpaceX \u2014 confirm with Kenny whether new rails install is moving forward',meta:'',                                    pri:false, done:false,hl:false,fu:false,note:''}
+    {id:'tw4',text:'Motiva (7/15) \u2014 contact Marc for badging + scaffold confirmation',meta:'',pri:false,done:false,hl:false,fu:false,note:''},
+    {id:'tw5',text:'Motiva \u2014 send L&L template email + scaffold drawing PDF',meta:'',pri:false,done:false,hl:false,fu:false,note:''},
+    {id:'tw6',text:'SpaceX \u2014 confirm with Kenny whether new rails install is moving forward',meta:'',pri:false,done:false,hl:false,fu:false,note:''}
   ]},
   { id:'tomorrow', label:'Tomorrow', title:fmtLong(tomorrow), tasks:[
-    {id:'t20',text:'Noatum \u2014 Credit application',  meta:'',pri:false,done:false,hl:false,fu:false,note:''},
-    {id:'t21',text:'Create BOL for Turner purchase',    meta:'',pri:false,done:false,hl:false,fu:false,note:''}
+    {id:'t20',text:'Noatum \u2014 Credit application',meta:'',pri:false,done:false,hl:false,fu:false,note:''},
+    {id:'t21',text:'Create BOL for Turner purchase',meta:'',pri:false,done:false,hl:false,fu:false,note:''}
   ]},
   { id:'nw', label:'Upcoming', title:'Upcoming / Pending Details', tasks:[
-    {id:'t22',text:'Confirm shipment booked for Valero McKee',                             meta:'',pri:false,done:false,hl:false,fu:false,note:''},
-    {id:'t23',text:'MINITRUCKS \u2014 Shipment to US',                                     meta:'',pri:false,done:false,hl:false,fu:false,note:''},
-    {id:'nu1',text:'Motiva (7/15) \u2014 book Kenny\'s travel',                            meta:'Flight + hotel via Perk Platinum',            pri:false,done:false,hl:false,fu:false,note:''},
-    {id:'nu2',text:'Motiva \u2014 book catering via ezCater',                              meta:'',                                            pri:false,done:false,hl:false,fu:false,note:''},
-    {id:'nu3',text:'Motiva \u2014 arrange equipment shipment',                             meta:'',                                            pri:false,done:false,hl:false,fu:false,note:''},
-    {id:'nu4',text:'Total Energy (7/6) \u2014 get details, kick off coordination',         meta:'',                                            pri:false,done:false,hl:false,fu:false,note:''},
-    {id:'nu5',text:'Marathon GBR \u2014 scope footage question still unanswered',          meta:'',                                            pri:false,done:false,hl:false,fu:false,note:''},
-    {id:'nu6',text:'Monday ops readiness check-in \u2014 post to Slack',                   meta:'Marcos, Jeffrey, Isaac, Heitor',              pri:false,done:false,hl:false,fu:false,note:''}
+    {id:'t23',text:'MINITRUCKS \u2014 Shipment to US',meta:'',pri:false,done:false,hl:false,fu:false,note:''},
+    {id:'nu1',text:"Motiva (7/15) \u2014 book Kenny's travel",meta:'Flight + hotel via Perk Platinum',pri:false,done:false,hl:false,fu:false,note:''},
+    {id:'nu2',text:'Motiva \u2014 book catering via ezCater',meta:'',pri:false,done:false,hl:false,fu:false,note:''},
+    {id:'nu3',text:'Motiva \u2014 arrange equipment shipment',meta:'',pri:false,done:false,hl:false,fu:false,note:''},
+    {id:'nu4',text:'Total Energy (7/6) \u2014 get details, kick off coordination',meta:'',pri:false,done:false,hl:false,fu:true,note:''},
+    {id:'nu5',text:'Marathon GBR \u2014 scope footage question still unanswered',meta:'',pri:false,done:false,hl:false,fu:false,note:''},
+    {id:'nu6',text:'Monday ops readiness check-in \u2014 post to Slack',meta:'Marcos, Jeffrey, Isaac, Heitor',pri:false,done:false,hl:false,fu:false,note:''}
   ]}
 ];
 
@@ -1111,6 +1596,7 @@ var completedOpenMap = {};
 function renderChecklist() {
   var secs = getSections();
   var cont = document.getElementById('cl-container');
+  if (!cont) return;
   cont.innerHTML = '';
   secs.forEach(function(sec, si) {
     var activeTasks    = sec.tasks.filter(function(t){ return !t.done; });
@@ -1184,10 +1670,14 @@ function makeTaskEl(secId, task) {
       (task.pri ? '<span class="pri-badge">Priority</span>' : '') +
     '</div>' +
     '<div class="action-bar">' +
-      '<button class="act-btn hl-btn'  + (task.hl?' active':'') + '" onclick="taskToggleHL(this.closest(\'.task-wrap\'))">\u26A1 Highlight</button>' +
-      '<button class="act-btn fu-btn'  + (task.fu?' active':'') + '" onclick="taskToggleFU(this.closest(\'.task-wrap\'))">\uD83D\uDD01 Follow Up</button>' +
-      '<button class="act-btn note-btn'+ (task.note?' active':'') + '" onclick="taskToggleNote(this.closest(\'.task-wrap\'))">\uD83D\uDCDD Note</button>' +
-      '<button class="act-btn" onclick="taskEdit(\'' + secId + '\',\'' + task.id + '\')">\u270F Edit</button>' +
+      '<button class="act-btn hl-btn'  + (task.hl?' active':'') + '" onclick="taskToggleHL(this.closest(\'.task-wrap\'))">' +
+        '\u26A1 Highlight</button>' +
+      '<button class="act-btn fu-btn'  + (task.fu?' active':'') + '" onclick="taskToggleFU(this.closest(\'.task-wrap\'))">' +
+        '\uD83D\uDD01 Follow Up</button>' +
+      '<button class="act-btn note-btn'+ (task.note?' active':'') + '" onclick="taskToggleNote(this.closest(\'.task-wrap\'))">' +
+        '\uD83D\uDCDD Note</button>' +
+      '<button class="act-btn" onclick="taskEdit(\'' + secId + '\',\'' + task.id + '\')">' +
+        '\u270F Edit</button>' +
     '</div>' +
     '<div class="note-area"><textarea class="note-input" placeholder="Add a note..." oninput="taskSaveNote(this)">' + (task.note||'') + '</textarea></div>';
   return wrap;
@@ -1261,6 +1751,26 @@ function taskDelete() {
 }
 
 document.getElementById('task-modal').addEventListener('click', function(e){ if(e.target===this) taskModalClose(); });
+
+function renderAll() {
+  renderJobs();
+  renderSalesBoard();
+  renderShipLog();
+  renderChecklist();
+}
+
+pullAll(function() {
+  renderAll();
+  initView();
+});
+
+// Auto-refresh disabled for now
+// setInterval(function() {
+//   if (document.hidden) return;
+//   if (Object.keys(_dirty).length > 0) return;
+//   if (document.querySelector('.modal-overlay.open')) return;
+//   pullAll(function() { renderAll(); });
+// }, 25000);
 
 </script>
 </body>
