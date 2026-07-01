@@ -325,6 +325,18 @@ body.checklist-unlocked .checklist-section { display: block !important; }
   </div>
 </div>
 
+<!-- UNCHECK CONFIRM MODAL -->
+<div class="modal-overlay" id="uncheck-modal">
+  <div class="modal" style="max-width:340px;text-align:center">
+    <h2 style="margin-bottom:8px;font-size:15px" id="uncheck-modal-title">Uncheck item?</h2>
+    <p id="uncheck-modal-msg" style="font-size:13px;color:#4a6278;margin-bottom:24px"></p>
+    <div class="modal-actions">
+      <button class="btn-save" id="uncheck-confirm-btn">Uncheck</button>
+      <button class="btn-cancel" onclick="uncheckCancel()">Cancel</button>
+    </div>
+  </div>
+</div>
+
 <!-- CLOSE OUT CONFIRMATION MODAL -->
 <div class="modal-overlay" id="closeout-modal">
   <div class="modal" style="max-width:360px;text-align:center">
@@ -1083,8 +1095,27 @@ var UNLOCK_PIN  = '1104';
 var shipJobId   = null;
 var shipMode    = 'outbound';
 
-// PIN gate
-var _pinCallback = null;
+// Uncheck confirm modal
+var _uncheckCallback = null;
+
+function showUncheckModal(itemName, cb) {
+  _uncheckCallback = cb;
+  var msg = document.getElementById('uncheck-modal-msg');
+  if (msg) msg.textContent = 'Remove confirmation for "' + itemName + '"?';
+  var btn = document.getElementById('uncheck-confirm-btn');
+  if (btn) btn.onclick = function() {
+    document.getElementById('uncheck-modal').classList.remove('open');
+    if (_uncheckCallback) { _uncheckCallback(); _uncheckCallback = null; }
+  };
+  document.getElementById('uncheck-modal').classList.add('open');
+}
+
+function uncheckCancel() {
+  document.getElementById('uncheck-modal').classList.remove('open');
+  _uncheckCallback = null;
+}
+
+document.getElementById('uncheck-modal').addEventListener('click', function(e){ if(e.target===this) uncheckCancel(); });
 
 function requirePin(cb) {
   _pinCallback = cb;
@@ -1297,22 +1328,25 @@ function shipConfirm(input) {
   if (!pd[jid]) pd[jid] = {};
   if (!pd[jid][num]) pd[jid][num] = {};
 
-  // Unchecking a confirmed item — ask first to prevent fat-finger accidents
+  // Unchecking a confirmed item — show custom modal first
   if (!input.checked && pd[jid][num].confirmed) {
     input.checked = true; // revert visually
-    if (!confirm('Uncheck "' + (SHIP_ITEMS.find(function(x){ return x.num===num; })||{name:'this item'}).name + '"?')) {
-      return; // cancelled — stay checked
-    }
-    // If outbound is locked, require PIN too
-    if (isOutboundLocked(pd[jid])) {
-      requirePin(function() {
+    var itemName = (SHIP_ITEMS.find(function(x){ return x.num===num; })||{name:'this item'}).name;
+    var wasLocked = isOutboundLocked(pd[jid]);
+    showUncheckModal(itemName, function() {
+      if (wasLocked) {
+        requirePin(function() {
+          var pd2 = getPackData();
+          if (!pd2[jid]) pd2[jid] = {};
+          if (!pd2[jid][num]) pd2[jid][num] = {};
+          pd2[jid][num].confirmed = false;
+          setPackData(pd2); shipRender(jid); renderShipLog(); renderJobs(); renderSalesBoard();
+        });
+      } else {
         pd[jid][num].confirmed = false;
         setPackData(pd); shipRender(jid); renderShipLog(); renderJobs(); renderSalesBoard();
-      });
-      return;
-    }
-    pd[jid][num].confirmed = false;
-    setPackData(pd); shipRender(jid); renderShipLog(); renderJobs(); renderSalesBoard();
+      }
+    });
     return;
   }
 
@@ -1338,13 +1372,17 @@ function shipToggleReturn(jid, num) {
   if (!pd[jid]) pd[jid] = {};
   if (!pd[jid][num]) pd[jid][num] = {};
 
-  // Unchecking a returned item — ask first, then PIN if checklist complete
+  // Unchecking a returned item — custom modal then PIN
   if (pd[jid][num].returned) {
-    var itemName = (SHIP_ITEMS.find(function(x){ return x.num===num; })||{name:'this item'}).name;
-    if (!confirm('Uncheck "' + itemName + '" as returned?')) return;
-    requirePin(function() {
-      pd[jid][num].returned = false;
-      setPackData(pd); shipRender(jid); renderShipLog(); renderJobs(); renderSalesBoard();
+    var itemName2 = (SHIP_ITEMS.find(function(x){ return x.num===num; })||{name:'this item'}).name;
+    showUncheckModal(itemName2, function() {
+      requirePin(function() {
+        var pd2 = getPackData();
+        if (!pd2[jid]) pd2[jid] = {};
+        if (!pd2[jid][num]) pd2[jid][num] = {};
+        pd2[jid][num].returned = false;
+        setPackData(pd2); shipRender(jid); renderShipLog(); renderJobs(); renderSalesBoard();
+      });
     });
     return;
   }
